@@ -6,21 +6,23 @@
 
 # Programmed by CoolCat467
 
+# Today experimenting with asynchronous generators
+
 __title__ = 'Advent of Code 2022 Day 1'
 __author__ = 'CoolCat467'
 __version__ = '0.0.0'
 
 
-from typing import Generator
+from typing import AsyncGenerator
 
 import io
-import collections
 
 import trio
 
 
-async def handler() -> Generator:
-    maxes = {}
+async def handler() -> AsyncGenerator[list[int], str | None]:
+    "File handler"
+    maxes: dict[int, int] = {}
     cur_max = 0
     cur_total = 0
     cur_elf = 0
@@ -54,9 +56,9 @@ async def async_run() -> None:
 10000"""
     reader = handler()
     await reader.asend(None)
-    max_values = (0, 0, 0)
-##    file = trio.wrap_file(io.StringIO(test_data))
-    file = await trio.open_file('day1.txt', encoding='utf-8')
+    max_values = [0, 0, 0]
+    file = trio.wrap_file(io.StringIO(test_data))
+##    file = await trio.open_file('day1.txt', encoding='utf-8')
     async for line in file:
         max_values = await reader.asend(line.strip())
     await file.aclose()
