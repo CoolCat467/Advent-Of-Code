@@ -36,7 +36,7 @@ async def handler() -> AsyncGenerator[list[int], str | None]:
             cur_elf += 1
         else:
             cur_total += int(new)
-        
+
 
 async def async_run() -> None:
     "Asynchronous entry point"

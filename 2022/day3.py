@@ -42,7 +42,7 @@ def part_two(backpacks: list[Backpack]) -> int:
             total += sum(prioritize(item) for item in in_all)
             cur_group = []
     return total
-    
+
 
 def run() -> None:
     "Synchronous entry point"
@@ -54,9 +54,9 @@ ttgJtRGJQctTZtZT
 CrZsJsPPZsGzwwsLwLmpwMDw"""
     file = io.StringIO(test_data)
 ##    file = open('day3.txt', encoding='utf-8')
-    
+
     backpacks: list[Backpack] = []
-    
+
     for line in file:
         contents = line.strip()
         count = len(contents)//2

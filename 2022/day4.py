@@ -49,7 +49,7 @@ def run() -> None:
 2-6,4-8"""
     file = io.StringIO(test_data)
 ##    file = open('day4.txt', encoding='utf-8')
-    
+
     pairs: list[tuple[str, str]] = []
     for line in file:
         section_pair = tuple(line.strip().split(',', 1))
