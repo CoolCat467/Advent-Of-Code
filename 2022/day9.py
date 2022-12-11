@@ -16,7 +16,7 @@ import io
 import dataclasses
 
 
-SHOW_STEP: Final = True
+SHOW_STEP: Final = False
 
 
 @dataclasses.dataclass(slots=True)
