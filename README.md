@@ -1,5 +1,5 @@
 # Advent-Of-Code
-Advent of code  # noqa: E999
+Advent of code
 
 <!-- BADGIE TIME -->
 
