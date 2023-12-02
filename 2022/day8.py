@@ -1,49 +1,54 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3  # noqa: EXE001
 # Advent of Code 2022 Day 7
 
-"Advent of Code 2022 Day 7"
+"Advent of Code 2022 Day 7."  # noqa: D300
 
 # Programmed by CoolCat467
+from __future__ import annotations
 
-__title__ = 'Advent of Code 2022 Day 7'
-__author__ = 'CoolCat467'
-__version__ = '0.0.0'
+__title__ = "Advent of Code 2022 Day 7"
+__author__ = "CoolCat467"
+__version__ = "0.0.0"
 
 import io
 
 import numpy as np
 
 
-def to_grid(lines: list[str]) -> np.ndarray[tuple[int, int], np.dtype[np.int0]]:
-    "Convert lines into array"
+def to_grid(
+    lines: list[str],
+) -> np.ndarray[tuple[int, int], np.dtype[np.int0]]:
+    "Convert lines into array."  # noqa: D300
     width = len(lines[0])
     height = len(lines)
-    values: list[int] = sum(([int(char) for char in line] for line in lines), start=[])
+    values: list[int] = sum(
+        ([int(char) for char in line] for line in lines),
+        start=[],
+    )
     return np.array(values, dtype=np.int0).reshape((width, height))
 
 
 def row_indexes(column: int, dims: int) -> list[int]:
-    "Get row indexes from column"
+    "Get row indexes from column."  # noqa: D300
     return list(range(column * dims, (column + 1) * dims))
 
 
 def column_indexes(row: int, dims: int) -> list[int]:
-    "Get column indexes from row"
+    "Get column indexes from row."  # noqa: D300
     return list(range(row, dims * dims, dims))
 
 
 def part_one(grid: np.ndarray[tuple[int, int], np.dtype[np.int0]]) -> int:
-    "Calculate how many trees are visible from outside the grid"
+    "Calculate how many trees are visible from outside the grid."  # noqa: D300
     if grid.shape[0] != grid.shape[1]:
         raise ValueError("Unhandled case: width != height")
     width = grid.shape[0]
-    elements = grid.shape[0]*grid.shape[1]
+    elements = grid.shape[0] * grid.shape[1]
     hidden = set(range(elements))
     hidden -= set(range(width))
-    hidden -= {i*width for i in range(width)}
-    hidden -= {i*width - 1 for i in range(width)}
-    hidden -= {i+(width*(width-1)) for i in range(width)}
+    hidden -= {i * width for i in range(width)}
+    hidden -= {i * width - 1 for i in range(width)}
+    hidden -= {i + (width * (width - 1)) for i in range(width)}
 
     for get_func in (row_indexes, column_indexes):
         for row_idx in range(width):
@@ -59,15 +64,15 @@ def part_one(grid: np.ndarray[tuple[int, int], np.dtype[np.int0]]) -> int:
 
 
 def part_two(grid: np.ndarray[tuple[int, int], np.dtype[np.int0]]) -> int:
-    "Calculate the highest scenic score possible for any tree"
+    "Calculate the highest scenic score possible for any tree."  # noqa: D300
     if grid.shape[0] != grid.shape[1]:
         raise ValueError("Unhandled case: width != height")
     gwidth = grid.shape[0]
     gheight = grid.shape[1]
 
     cur_highest = 0
-    for y in range(1, gheight-1):
-        for x in range(1, gwidth-1):
+    for y in range(1, gheight - 1):
+        for x in range(1, gwidth - 1):
             height = grid[y, x]
             total = 1
 
@@ -79,9 +84,9 @@ def part_two(grid: np.ndarray[tuple[int, int], np.dtype[np.int0]]) -> int:
             total *= see
 
             see = 0
-            for rx in range(1, gwidth-x):
+            for rx in range(1, gwidth - x):
                 see += 1
-                if grid[y, x+rx] >= height:
+                if grid[y, x + rx] >= height:
                     break
             total *= see
 
@@ -93,9 +98,9 @@ def part_two(grid: np.ndarray[tuple[int, int], np.dtype[np.int0]]) -> int:
             total *= see
 
             see = 0
-            for ry in range(1, gheight-y):
+            for ry in range(1, gheight - y):
                 see += 1
-                if grid[y+ry, x] >= height:
+                if grid[y + ry, x] >= height:
                     break
             total *= see
 
@@ -105,7 +110,7 @@ def part_two(grid: np.ndarray[tuple[int, int], np.dtype[np.int0]]) -> int:
 
 
 def run() -> None:
-    "Synchronous entry point"
+    "Synchronous entry point."  # noqa: D300, D401
     test_data = """30373
 25512
 65332
@@ -113,17 +118,17 @@ def run() -> None:
 35390"""
 
     file = io.StringIO(test_data)
-##    file = open('day8.txt', encoding='utf-8')
+    ##    file = open('day8.txt', encoding='utf-8')
 
     lines = file.read().splitlines()
     file.close()
 
     grid = to_grid(lines)
 
-    print(f'{part_one(grid) = }')
-    print(f'{part_two(grid) = }')
+    print(f"{part_one(grid) = }")
+    print(f"{part_two(grid) = }")
 
 
-if __name__ == '__main__':
-    print(f'{__title__}\nProgrammed by {__author__}.\n')
+if __name__ == "__main__":
+    print(f"{__title__}\nProgrammed by {__author__}.\n")
     run()

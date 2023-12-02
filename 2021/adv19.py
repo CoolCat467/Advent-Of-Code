@@ -1,82 +1,83 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3  # noqa: EXE001
 # Advent of code 2021 day 18 - https://adventofcode.com/2021/day/19
 
 """Goals:
-1) 
-2) 
-"""
+1)
+2).
+"""  # noqa: D205
 
 # Programmed by CoolCat467
 
-__title__ = 'Advent of Code 2021 - Day 19'
-__author__ = 'CoolCat467'
-__version__ = '0.0.0'
+__title__ = "Advent of Code 2021 - Day 19"
+__author__ = "CoolCat467"
+__version__ = "0.0.0"
 __ver_major__ = 0
 __ver_minor__ = 0
 __ver_patch__ = 0
 
-from vector import Vector, Vector3
+from vector import Vector
 
-class Cube:
-    def __init__(self, center, side_len):
+
+class Cube:  # noqa: D101
+    def __init__(self, center, side_len):  # noqa: D107
         self.center = center
         self.side_len = side_len
         self.points = {}
         self.gen_points()
-    
+
     def gen_points(self):
-        "Generate points"
+        "Generate points."  # noqa: D300
         half = self.side_len / 2
         self.points = {}
         for x in range(2):
             for y in range(2):
                 for z in range(2):
                     vec = (Vector(x, y, z) * 2 - 1) * half
-                    name = ''.join(map(str, (x, y, z)))
+                    name = "".join(map(str, (x, y, z)))
                     self.points[name] = self.center + vec
-                    print(f'{vec} -> {name}')
-    
+                    print(f"{vec} -> {name}")
+
     def check_z(self, z):
-        "Return True if z within z bounds"
-        if z < self.points['000'][2]:#less than min z
+        "Return True if z within z bounds."  # noqa: D300
+        if z < self.points["000"][2]:  # less than min z
             return False
-        if z > self.points['001'][2]:#greater than max z
+        if z > self.points["001"][2]:  # greater than max z
             return False
         return True
-    
+
     def check_y(self, y):
-        "Return True if y within y bounds."
-        if y < self.points['000'][1]:#less than min y
+        "Return True if y within y bounds."  # noqa: D300
+        if y < self.points["000"][1]:  # less than min y
             return False
-        if y > self.points['010'][1]:#greater than max y
+        if y > self.points["010"][1]:  # greater than max y
             return False
         return True
-    
+
     def check_x(self, x):
-        "Return True if x within x bounds"
-        if x < self.points['000'][0]:#less than min x
+        "Return True if x within x bounds."  # noqa: D300
+        if x < self.points["000"][0]:  # less than min x
             return False
-        if x > self.points['100'][0]:#greater than max x
+        if x > self.points["100"][0]:  # greater than max x
             return False
         return True
-    
+
     def check(self, point):
-        "Return True if point within cube area"
+        "Return True if point within cube area."  # noqa: D300
         x, y, z = point
         return self.check_x(x) and self.check_y(y) and self.check_z(z)
 
-class Scanner:
-    def __init__(self, points):
+
+class Scanner:  # noqa: D101
+    def __init__(self, points):  # noqa: D107
         self.points = [Vector.from_iter(p) for p in points]
-    
-    def __repr__(self):
-        return '<Scanner>'
-    
-    def get_abs(self):
+
+    def __repr__(self):  # noqa: D105
+        return "<Scanner>"
+
+    def get_abs(self):  # noqa: D102
         return [abs(v) for v in self.points]
-    
-    def find_matches(self, scanner):
+
+    def find_matches(self, scanner):  # noqa: D102
         points = scanner.get_abs()
         print(points)
         print(self.get_abs())
@@ -86,11 +87,12 @@ class Scanner:
                 matches.append(self.points[idx])
         return matches
 
+
 def run():
-    "Solve problems"
+    "Solve problems."  # noqa: D300
     # Read file
     data = []
-    with open('adv19.txt', 'r', encoding='utf-8') as rfile:
+    with open("adv19.txt", encoding="utf-8") as rfile:
         data = rfile.read()
         rfile.close()
     data = """--- scanner 0 ---
@@ -230,26 +232,28 @@ def run():
 -652,-548,-490
 30,-46,-14"""
     # Process data
-    scan_tables = data.split('\n\n')
+    scan_tables = data.split("\n\n")
     scanners = {}
     for scan_table in scan_tables:
         scan_data = scan_table.splitlines()
         name = scan_data[0]
         scan_data = scan_data[1:]
-        name = name.replace('---', '').replace(' scanner ', '').replace(' ', '')
-        scanners[name] = [tuple(map(int, x.split(','))) for x in scan_data]
-##    print(scanners)
-    
+        name = (
+            name.replace("---", "").replace(" scanner ", "").replace(" ", "")
+        )
+        scanners[name] = [tuple(map(int, x.split(","))) for x in scan_data]
+    ##    print(scanners)
+
     # Solve 1
-    scaner_pos = {'0':Vector(0, 0, 0)}
-    scanners = {k:Scanner(v) for k, v in scanners.items()}
-    diff = scanners['0'].find_matches(scanners['1'])
+    {"0": Vector(0, 0, 0)}
+    scanners = {k: Scanner(v) for k, v in scanners.items()}
+    diff = scanners["0"].find_matches(scanners["1"])
     print(scanners)
     print(diff)
-    
-    # Solve 2
-    
 
-if __name__ == '__main__':
-    print(f'{__title__} v{__version__}\nProgrammed by {__author__}.')
+    # Solve 2
+
+
+if __name__ == "__main__":
+    print(f"{__title__} v{__version__}\nProgrammed by {__author__}.")
     run()

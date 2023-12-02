@@ -1,27 +1,26 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3  # noqa: EXE001
 # Advent of Code 2022 Day 1
 
-"Advent of Code 2022 Day 1"
+"Advent of Code 2022 Day 1."  # noqa: D300
 
 # Programmed by CoolCat467
 
 # Today experimenting with asynchronous generators
+from __future__ import annotations
 
-__title__ = 'Advent of Code 2022 Day 1'
-__author__ = 'CoolCat467'
-__version__ = '0.0.0'
+__title__ = "Advent of Code 2022 Day 1"
+__author__ = "CoolCat467"
+__version__ = "0.0.0"
 
-
-from typing import AsyncGenerator
 
 import io
+from typing import AsyncGenerator
 
 import trio
 
 
 async def handler() -> AsyncGenerator[list[int], str | None]:
-    "File handler"
+    "File handler."  # noqa: D300
     maxes: dict[int, int] = {}
     cur_max = 0
     cur_total = 0
@@ -39,7 +38,7 @@ async def handler() -> AsyncGenerator[list[int], str | None]:
 
 
 async def async_run() -> None:
-    "Asynchronous entry point"
+    "Asynchronous entry point."  # noqa: D300
     test_data = """1000
 2000
 3000
@@ -58,19 +57,20 @@ async def async_run() -> None:
     await reader.asend(None)
     max_values = [0, 0, 0]
     file = trio.wrap_file(io.StringIO(test_data))
-##    file = await trio.open_file('day1.txt', encoding='utf-8')
+    ##    file = await trio.open_file('day1.txt', encoding='utf-8')
     async for line in file:
         max_values = await reader.asend(line.strip())
     await file.aclose()
     max_values = await anext(reader)
-    print(f'{max_values[0] = }')
-    print(f'{sum(max_values) = }')
+    print(f"{max_values[0] = }")
+    print(f"{sum(max_values) = }")
+
 
 def run() -> None:
-    "Synchronous entry point"
+    "Synchronous entry point."  # noqa: D300, D401
     trio.run(async_run)
 
 
-if __name__ == '__main__':
-    print(f'{__title__}\nProgrammed by {__author__}.\n')
+if __name__ == "__main__":
+    print(f"{__title__}\nProgrammed by {__author__}.\n")
     run()

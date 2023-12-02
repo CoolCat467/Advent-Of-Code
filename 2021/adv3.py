@@ -1,58 +1,64 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3  # noqa: EXE001
 # Advent of code 2021 day 3 - https://adventofcode.com/2021/day/3
 
 """Goals:
 1) Find power usage
-2) Find life support rating
-"""
+2) Find life support rating.
+"""  # noqa: D205
 
 # Programmed by CoolCat467
 
-__title__ = 'Advent of Code 2021 - Day 3'
-__author__ = 'CoolCat467'
-__version__ = '0.0.0'
+__title__ = "Advent of Code 2021 - Day 3"
+__author__ = "CoolCat467"
+__version__ = "0.0.0"
 __ver_major__ = 0
 __ver_minor__ = 0
 __ver_patch__ = 0
 
+
 def activation(value):
-    "Activation function"
+    "Activation function."  # noqa: D300
     if value >= 0.5:
         return 1
     return 0
 
+
 def mean(values: iter):
-    "Return mean of values."
-    return sum(values) / len(values) 
+    "Return mean of values."  # noqa: D300
+    return sum(values) / len(values)
+
 
 def to_bits(value: iter):
-    "Return iterable of zeros and ones as binary -> int"
-    return int(''.join(map(str, value)), 2)
+    "Return iterable of zeros and ones as binary -> int."  # noqa: D300
+    return int("".join(map(str, value)), 2)
+
 
 def bit_invert(number):
-    "Invert the bits of number."
+    "Invert the bits of number."  # noqa: D300
     bits = number.bit_length()
-    mask = int(''.join(['1']*bits), 2)
+    mask = int("".join(["1"] * bits), 2)
     return number ^ mask
 
+
 def get_mean(bits):
-    "Return mean of bits"
+    "Return mean of bits."  # noqa: D300
     bits_per = {}
     for value in bits:
         for idx, atpos in enumerate(value):
-            if not idx in bits_per:
+            if idx not in bits_per:
                 bits_per[idx] = []
             bits_per[idx].append(int(atpos))
     return [mean(value) for value in bits_per.values()]
 
+
 def get_bit_crit(bits, mode, pos):
-    "Return bit criteria"
+    "Return bit criteria."  # noqa: D300
     mean_value = get_mean(bits)[pos]
     return activation(mean_value) ^ mode
 
+
 def find_rating(bits, mode):
-    "Find rating"
+    "Find rating."  # noqa: D300
     bits = list(bits)
     index = 0
     while len(bits) > 1:
@@ -63,11 +69,12 @@ def find_rating(bits, mode):
         index += 1
     return to_bits(bits[0])
 
+
 def run():
-    "Solve problems"
+    "Solve problems."  # noqa: D300
     # Read file
     data = []
-    with open('adv3.txt', 'r', encoding='utf-8') as rfile:
+    with open("adv3.txt", encoding="utf-8") as rfile:
         data = rfile.read().splitlines()
         rfile.close()
     # Solve 1
@@ -81,6 +88,7 @@ def run():
     co2_rating = find_rating(data, 1)
     print(oxygen_rating * co2_rating)
 
-if __name__ == '__main__':
-    print(f'{__title__} v{__version__}\nProgrammed by {__author__}.')
+
+if __name__ == "__main__":
+    print(f"{__title__} v{__version__}\nProgrammed by {__author__}.")
     run()

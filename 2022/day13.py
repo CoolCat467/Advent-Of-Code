@@ -1,34 +1,31 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3  # noqa: EXE001
 # Advent of Code 2022 Day 13
 
-"Advent of Code 2022 Day 13"
+"Advent of Code 2022 Day 13."  # noqa: D300
 
 # Programmed by CoolCat467
+from __future__ import annotations
 
-__title__ = 'Advent of Code 2022 Day 13'
-__author__ = 'CoolCat467'
-__version__ = '0.0.0'
+__title__ = "Advent of Code 2022 Day 13"
+__author__ = "CoolCat467"
+__version__ = "0.0.0"
 
-
-from typing import Any, cast
 
 import io
 import json
-
+from typing import Any, cast
 
 Packet = int | list[int] | list[list[Any]]
 
 
 def get_value(string: str) -> Packet:
-    "Get object from string"
+    "Get object from string."  # noqa: D300
     return cast(Packet, json.loads(string))
 
 
-def compare(left: Packet,
-            right: Packet) -> bool | None:
-    "Return true if in right order"
-##    print(f'{left} {right}')
+def compare(left: Packet, right: Packet) -> bool | None:
+    "Return true if in right order."  # noqa: D300
+    ##    print(f'{left} {right}')
     if isinstance(left, int) and isinstance(right, int):
         if left == right:
             return None
@@ -51,14 +48,14 @@ def compare(left: Packet,
 
 
 def part_one(pairs: list[tuple[str, str]]) -> int:
-    "Calculate sum of indexes of correct pairs"
+    "Calculate sum of indexes of correct pairs."  # noqa: D300
     correct_index_sum = 0
     current = 1
     for str_left, str_right in pairs:
         left = get_value(str_left)
         right = get_value(str_right)
         state = compare(left, right)
-##        print(f'{current}: {state}')
+        ##        print(f'{current}: {state}')
         if state:
             correct_index_sum += current
         current += 1
@@ -66,26 +63,28 @@ def part_one(pairs: list[tuple[str, str]]) -> int:
 
 
 def part_two(pairs: list[tuple[str, str]]) -> int:
-    "Calculate the decoder key for the distress signal"
+    "Calculate the decoder key for the distress signal."  # noqa: D300
     values: list[str] = sum((list(pair) for pair in pairs), start=[])
-    dividers = ('[[2]]', '[[6]]')
+    dividers = ("[[2]]", "[[6]]")
     values.extend(dividers)
     ordered: list[str] = [values[0]]
     for value in values[1:]:
         ordered.append(value)
         length = len(ordered)
-        i = length-2
-        while i >= 0 and compare(get_value(ordered[i+1]),
-                                 get_value(ordered[i])):
-            left, right = ordered[i], ordered[i+1]
-            ordered[i+1], ordered[i] = left, right
+        i = length - 2
+        while i >= 0 and compare(
+            get_value(ordered[i + 1]),
+            get_value(ordered[i]),
+        ):
+            left, right = ordered[i], ordered[i + 1]
+            ordered[i + 1], ordered[i] = left, right
             i -= 1
-##    print('\n'.join(ordered))
-    return (1+ordered.index(dividers[0])) * (1+ordered.index(dividers[1]))
+    ##    print('\n'.join(ordered))
+    return (1 + ordered.index(dividers[0])) * (1 + ordered.index(dividers[1]))
 
 
 def run() -> None:
-    "Synchronous entry point"
+    "Synchronous entry point."  # noqa: D300, D401
     test_data = """[1,1,3,1,1]
 [1,1,5,1,1]
 
@@ -111,21 +110,21 @@ def run() -> None:
 [1,[2,[3,[4,[5,6,0]]]],8,9]"""
 
     file = io.StringIO(test_data)
-##    file = open('day13.txt', encoding='utf-8')
+    ##    file = open('day13.txt', encoding='utf-8')
 
     pairs: list[tuple[str, str]] = []
 
     for line in file:
-        if line == '\n':
+        if line == "\n":
             continue
         pairs.append((line.strip(), file.readline().strip()))
 
     file.close()
 
-    print(f'{part_one(pairs) = }')
-    print(f'{part_two(pairs) = }')
+    print(f"{part_one(pairs) = }")
+    print(f"{part_two(pairs) = }")
 
 
-if __name__ == '__main__':
-    print(f'{__title__}\nProgrammed by {__author__}.\n')
+if __name__ == "__main__":
+    print(f"{__title__}\nProgrammed by {__author__}.\n")
     run()

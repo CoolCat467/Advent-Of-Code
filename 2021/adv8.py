@@ -1,42 +1,43 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3  # noqa: EXE001
 # Advent of code 2021 day 8 - https://adventofcode.com/2021/day/8
 
 """Goals:
 1) Find special length numbers
-2) Find sum of all corrupted numbers
-"""
+2) Find sum of all corrupted numbers.
+"""  # noqa: D205
 
 # Programmed by CoolCat467
 
-__title__ = 'Advent of Code 2021 - Day 8'
-__author__ = 'CoolCat467'
-__version__ = '0.0.0'
+__title__ = "Advent of Code 2021 - Day 8"
+__author__ = "CoolCat467"
+__version__ = "0.0.0"
 __ver_major__ = 0
 __ver_minor__ = 0
 __ver_patch__ = 0
 
 SEGMENTS = {
-    0:[1, 1, 1, 0, 1, 1, 1],
-    1:[0, 0, 1, 0, 0, 1, 0],
-    2:[1, 0, 1, 1, 1, 0, 1],
-    3:[1, 0, 1, 1, 0, 1, 1],
-    4:[0, 1, 1, 1, 0, 1, 0],
-    5:[1, 1, 0, 1, 0, 1, 1],
-    6:[1, 1, 0, 1, 1, 1, 1],
-    7:[1, 0, 1, 0, 0, 1, 0],
-    8:[1, 1, 1, 1, 1, 1, 1],
-    9:[1, 1, 1, 1, 0, 1, 1]
+    0: [1, 1, 1, 0, 1, 1, 1],
+    1: [0, 0, 1, 0, 0, 1, 0],
+    2: [1, 0, 1, 1, 1, 0, 1],
+    3: [1, 0, 1, 1, 0, 1, 1],
+    4: [0, 1, 1, 1, 0, 1, 0],
+    5: [1, 1, 0, 1, 0, 1, 1],
+    6: [1, 1, 0, 1, 1, 1, 1],
+    7: [1, 0, 1, 0, 0, 1, 0],
+    8: [1, 1, 1, 1, 1, 1, 1],
+    9: [1, 1, 1, 1, 0, 1, 1],
 }
-SEG_COUNT_USED = {k:v.count(1) for k, v in SEGMENTS.items()}
+SEG_COUNT_USED = {k: v.count(1) for k, v in SEGMENTS.items()}
+
 
 def get_sure_conv():
-    "Get conversions by length"
+    "Get conversions by length."  # noqa: D300
     data = {}
     for key, value in SEG_COUNT_USED.items():
-        if not value in {5, 6}:
+        if value not in {5, 6}:
             data[value] = key
     return data
+
 
 SURE_CONV = get_sure_conv()
 
@@ -53,23 +54,28 @@ SURE_CONV = get_sure_conv()
 ##
 ##seg_patterns = get_seg_patterns()
 
+
 def segment(lettermap, values):
-    "Print segment"
+    "Print segment."  # noqa: D300
     lines = []
+
     def vert(let):
-        return ' '+let*4+' '
+        return " " + let * 4 + " "
+
     def hori(let1, let2):
-        return let1+' '*4+let2
+        return let1 + " " * 4 + let2
+
     line_idx = (0, 3, 6)
     last = 0
-    lettermap = [lettermap[i] if values[i] else '.' for i in range(7)]
+    lettermap = [lettermap[i] if values[i] else "." for i in range(7)]
     for i in range(7):
         if i in line_idx:
             lines.append(vert(lettermap[i]))
             last = i
         else:
-            lines.append(hori(lettermap[last+1], lettermap[last+2]))
-    print('\n'.join(lines))
+            lines.append(hori(lettermap[last + 1], lettermap[last + 2]))
+    print("\n".join(lines))
+
 
 ##def infir_morph(patterns, extra_known=None):
 ##    "Infir mappings for SEGMENTS"
@@ -104,7 +110,7 @@ def segment(lettermap, values):
 ##    return morph
 ##
 def length_conv(digits):
-    "Return digits known by length"
+    "Return digits known by length."  # noqa: D300
     know = []
     for digit in digits:
         leng = len(digit)
@@ -113,6 +119,8 @@ def length_conv(digits):
         else:
             know.append(digit)
     return know
+
+
 ##
 ##def find_with_lits(lit_SEGMENTS):
 ##    lit = []
@@ -165,21 +173,21 @@ def length_conv(digits):
 ##0: 1 if value from possible from SEGMENTS
 ##0: 2 if value from mutation counts
 ##0: 0 if mutation counts tie, no most possible
-##1: If [0] == 1, intiger value of `value` pattern
-##1: If [0] == 2, most likely intiger values of `value` pattern
-##1: If [0] == 0, 
+##1: If [0] == 1, integer value of `value` pattern
+##1: If [0] == 2, most likely integer values of `value` pattern
+##1: If [0] == 0,
 ##
 ##    """
 ####    "Return best possible values"
 ##    good_morphs = {k:v[0] for k, v in morphs.items() if len(v) == 1}
 ##    possible_morphs = {k:v for k, v in morphs.items() if len(v) > 1}
-##    
+##
 ##    possible = get_possible_from_segments(good_morphs, patterns)
 ##    if len(possible[value]) == 1:
 ##        return 1, possible[value][0]
 ##    values_count = {val:0 for val in possible[value]}
 ##    mutation_values = {}
-##    
+##
 ##    for mkey, pos_val in possible_morphs.items():
 ##        for mutation in pos_val:
 ##            copy = good_morphs
@@ -236,9 +244,10 @@ def length_conv(digits):
 ##    return add_pats
 ####    return add_pats[target]
 
+
 # pylint: R0912: Too many branches (18/12)
 def get_value(value, patterns):
-    "Return value of pattern `value` given all patterns."
+    "Return value of pattern `value` given all patterns."  # noqa: D300
     numbers = {}
     sixes = []
     fives = []
@@ -251,37 +260,34 @@ def get_value(value, patterns):
         if leng == 5:
             fives.append(pat)
     for pat in sixes:
-        rev_no = {v:k for k, v in numbers.items()}
+        rev_no = {v: k for k, v in numbers.items()}
         diff = list(set(rev_no[1]).difference(set(pat)))
-        if len(diff) == 1:
-            if not pat in numbers:
-                numbers[pat] = 6
+        if len(diff) == 1 and pat not in numbers:
+            numbers[pat] = 6
         diff = list(set(rev_no[4]).difference(set(pat)))
-        if len(diff) == 1:
-            if not pat in numbers:
-                numbers[pat] = 0
+        if len(diff) == 1 and pat not in numbers:
+            numbers[pat] = 0
     for pat in sixes:
-        if not pat in numbers:
+        if pat not in numbers:
             numbers[pat] = 9
     for pat in fives:
-        rev_no = {v:k for k, v in numbers.items()}
+        rev_no = {v: k for k, v in numbers.items()}
         diff = list(set(rev_no[6]).difference(set(pat)))
-        if len(diff) == 1:
-            if not pat in numbers:
-                numbers[pat] = 5
+        if len(diff) == 1 and pat not in numbers:
+            numbers[pat] = 5
         diff = list(set(rev_no[9]).difference(set(pat)))
-        if len(diff) == 1:
-            if not pat in numbers:
-                numbers[pat] = 3
+        if len(diff) == 1 and pat not in numbers:
+            numbers[pat] = 3
     for pat in fives:
-        if not pat in numbers:
+        if pat not in numbers:
             numbers[pat] = 2
     return numbers[value]
 
+
 def get_values(values, patterns):
-    "Return values given patterns"
-    values = [''.join(sorted(x)) for x in values]
-    patterns = [''.join(sorted(x)) for x in patterns]
+    "Return values given patterns."  # noqa: D300
+    values = ["".join(sorted(x)) for x in values]
+    patterns = ["".join(sorted(x)) for x in patterns]
     all_pats = patterns
     extra_know = {}
     digits = length_conv(values)
@@ -289,49 +295,51 @@ def get_values(values, patterns):
         if isinstance(digit, str):
             digits[idx] = get_value(digit, all_pats)
             extra_know[digit] = digits[idx]
-    return int(''.join(map(str, digits)))
+    return int("".join(map(str, digits)))
+
 
 def run():
-    "Solve problems"
+    "Solve problems."  # noqa: D300
     # Read file
     data = []
-    with open('adv8.txt', 'r', encoding='utf-8') as rfile:
+    with open("adv8.txt", encoding="utf-8") as rfile:
         data = rfile.read().splitlines()
         rfile.close()
         # pylint: C0301: Line too long (866/100)
-##    data = 'be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe\nedbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc\nfgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg\nfbegcd cbd adcefb dageb afcb bc aefdc ecdab fgdeca fcdbega | efabcd cedba gadfec cb\naecbfdg fbg gf bafeg dbefa fcge gcbea fcaegb dgceab fcbdga | gecf egdcabf bgf bfgea\nfgeab ca afcebg bdacfeg cfaedg gcfdb baec bfadeg bafgc acf | gebdcfa ecba ca fadegcb\ndbcfg fgd bdegcaf fgec aegbdf ecdfab fbedc dacgb gdcebf gf | cefg dcbef fcge gbcadfe\nbdfegc cbegaf gecbf dfcage bdacg ed bedf ced adcbefg gebcd | ed bcgafe cdgba cbgef\negadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb\ngcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce'.splitlines()
-##    data = ['acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf']
+    ##    data = 'be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe\nedbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc\nfgaebd cg bdaec gdafb agbcfd gdcbef bgcad gfac gcb cdgabef | cg cg fdcagb cbg\nfbegcd cbd adcefb dageb afcb bc aefdc ecdab fgdeca fcdbega | efabcd cedba gadfec cb\naecbfdg fbg gf bafeg dbefa fcge gcbea fcaegb dgceab fcbdga | gecf egdcabf bgf bfgea\nfgeab ca afcebg bdacfeg cfaedg gcfdb baec bfadeg bafgc acf | gebdcfa ecba ca fadegcb\ndbcfg fgd bdegcaf fgec aegbdf ecdfab fbedc dacgb gdcebf gf | cefg dcbef fcge gbcadfe\nbdfegc cbegaf gecbf dfcage bdacg ed bedf ced adcbefg gebcd | ed bcgafe cdgba cbgef\negadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb\ngcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce'.splitlines()
+    ##    data = ['acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf']
     # Solve 1
     unique = 0
-    for value in [line.split(' | ')[1] for line in data]:
-        for num in value.split(' '):
+    for value in [line.split(" | ")[1] for line in data]:
+        for num in value.split(" "):
             if len(num) in {2, 3, 4, 7}:
                 unique += 1
     print(unique)
     # Solve 2
     sum_values = 0
     for line in data:
-        patterns, value = line.split(' | ')
-##        pat_segs = {}
-##        for pat in patterns.split(' '):
-##            leng = len(pat)
-##            if leng in SURE_CONV:
-##                pat_segs[pat] = SURE_CONV[leng]
-####        print(pat_segs)
-##        digits = []
-##        for pat in value.split(' '):
-##            if pat in pat_segs:
-##                digits.append(pat_segs[pat])
-##            else:
-##                digits.append(pat)
-####        pat_map = infir_pats(pat_segs, patterns)
-####        print(digits)
-##        print(get_value(value, patterns))
-####        print(length_conv(patterns.split(' ')))
-####        print(length_conv(value.split(' ')))
-        sum_values += get_values(value.split(' '), patterns.split(' '))
+        patterns, value = line.split(" | ")
+        ##        pat_segs = {}
+        ##        for pat in patterns.split(' '):
+        ##            leng = len(pat)
+        ##            if leng in SURE_CONV:
+        ##                pat_segs[pat] = SURE_CONV[leng]
+        ####        print(pat_segs)
+        ##        digits = []
+        ##        for pat in value.split(' '):
+        ##            if pat in pat_segs:
+        ##                digits.append(pat_segs[pat])
+        ##            else:
+        ##                digits.append(pat)
+        ####        pat_map = infir_pats(pat_segs, patterns)
+        ####        print(digits)
+        ##        print(get_value(value, patterns))
+        ####        print(length_conv(patterns.split(' ')))
+        ####        print(length_conv(value.split(' ')))
+        sum_values += get_values(value.split(" "), patterns.split(" "))
     print(sum_values)
 
-if __name__ == '__main__':
-    print(f'{__title__} v{__version__}\nProgrammed by {__author__}.')
+
+if __name__ == "__main__":
+    print(f"{__title__} v{__version__}\nProgrammed by {__author__}.")
     run()

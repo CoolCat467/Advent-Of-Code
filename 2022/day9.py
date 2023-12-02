@@ -1,70 +1,70 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3  # noqa: EXE001
 # Advent of Code 2022 Day 9
 
-"Advent of Code 2022 Day 9"
+"Advent of Code 2022 Day 9."  # noqa: D300
 
 # Programmed by CoolCat467
+from __future__ import annotations
 
-__title__ = 'Advent of Code 2022 Day 9'
-__author__ = 'CoolCat467'
-__version__ = '0.0.0'
+__title__ = "Advent of Code 2022 Day 9"
+__author__ = "CoolCat467"
+__version__ = "0.0.0"
 
-from typing import Iterable, Iterator, Final
-
-import io
 import dataclasses
-
+import io
+from typing import Final, Iterable, Iterator
 
 SHOW_STEP: Final = False
 
 
 @dataclasses.dataclass(slots=True)
 class Point:
-    "Represents one two dimensional point"
+    "Represents one two dimensional point."  # noqa: D300
     x: int
     y: int
-    def __iter__(self) -> Iterator[int]:
+
+    def __iter__(self) -> Iterator[int]:  # noqa: D105
         return iter((self.x, self.y))
 
-    def __add__(self, obj: Iterable[int]) -> 'Point':
+    def __add__(self, obj: Iterable[int]) -> Point:  # noqa: D105
         gen = iter(obj)
         return Point(self.x + next(gen), self.y + next(gen))
 
-    def __iadd__(self, obj: Iterable[int]) -> 'Point':
+    def __iadd__(self, obj: Iterable[int]) -> Point:  # noqa: PYI034, D105
         gen = iter(obj)
         self.x += next(gen)
         self.y += next(gen)
         return self
 
-    def __sub__(self, obj: Iterable[int]) -> 'Point':
+    def __sub__(self, obj: Iterable[int]) -> Point:  # noqa: D105
         gen = iter(obj)
         return Point(self.x - next(gen), self.y - next(gen))
 
-    def __copy__(self) -> 'Point':
+    def __copy__(self) -> Point:  # noqa: D105
         return Point(self.x, self.y)
 
     copy = __copy__
 
 
 class RopeSim:
-    "Single length rope simulation"
-    __slots__ = ('head', 'tail', 'visited')
-    def __init__(self) -> None:
+    "Single length rope simulation."  # noqa: D300
+    __slots__ = ("head", "tail", "visited")
+
+    def __init__(self) -> None:  # noqa: D107
         self.head = Point(0, 0)
         self.tail = Point(0, 0)
         self.visited: set[tuple[int, int]] = {(0, 0)}
 
     def set_tail(self, point: Point) -> None:
-        "Set tail and mark point as visited"
-##        self.visited.add(point.x * 3 + point.y * 5)
+        "Set tail and mark point as visited."  # noqa: D300
+        ##        self.visited.add(point.x * 3 + point.y * 5)
         self.visited.add((point.x, point.y))
         self.tail = point
 
     def step(self, direction: str, count: int) -> None:
-        "Preform one step of the simulation"
-        dx = {'R': 1, 'L': -1}.get(direction, 0)
-        dy = {'U': 1, 'D': -1}.get(direction, 0)
+        "Perform one step of the simulation."  # noqa: D300
+        dx = {"R": 1, "L": -1}.get(direction, 0)
+        dy = {"U": 1, "D": -1}.get(direction, 0)
         delta = Point(dx, dy)
         for _ in range(count):
             prev_head = self.head.copy()
@@ -76,7 +76,7 @@ class RopeSim:
 
 
 def copysign(x: int, y: int) -> int:
-    "Copy sign of y to x"
+    "Copy sign of y to x."  # noqa: D300
     abs_x = abs(x)
     if y < 0:
         return -abs_x
@@ -86,43 +86,44 @@ def copysign(x: int, y: int) -> int:
 
 
 class RopeSimLong:
-    "Rope simulation of longer rope (1 does not work properly)"
-    __slots__ = ('length', 'stack', 'visited')
-    def __init__(self, length: int) -> None:
+    "Rope simulation of longer rope (1 does not work properly)."  # noqa: D300
+    __slots__ = ("length", "stack", "visited")
+
+    def __init__(self, length: int) -> None:  # noqa: D107
         self.length = length
-        self.stack = {i:Point(0, 0) for i in range(length+1)}
+        self.stack = {i: Point(0, 0) for i in range(length + 1)}
         self.visited: set[tuple[int, int]] = {(0, 0)}
 
     def set_tail(self, index: int, point: Point) -> None:
-        "Mark point as visited"
-        if index == self.length-1:
+        "Mark point as visited."  # noqa: D300
+        if index == self.length - 1:
             self.visited.add((point.x, point.y))
         self.stack[index] = point
         if SHOW_STEP:
             self.show_map()
 
     def step(self, direction: str, count: int) -> None:
-        "Preform one step"
-        dx = {'R': 1, 'L': -1}.get(direction, 0)
-        dy = {'U': 1, 'D': -1}.get(direction, 0)
+        "Perform one step."  # noqa: D300
+        dx = {"R": 1, "L": -1}.get(direction, 0)
+        dy = {"U": 1, "D": -1}.get(direction, 0)
         delta = Point(dx, dy)
         for _ in range(count):
             self.stack[0] += delta
             for idx in range(1, self.length):
-                head = self.stack[idx-1]
+                head = self.stack[idx - 1]
                 tail = self.stack[idx]
 
                 dx, dy = head - tail
                 if abs(dx) > 1 or abs(dy) > 1:
                     if abs(dx) > 1:
-                        dx = copysign(abs(dx)-1, dx)
+                        dx = copysign(abs(dx) - 1, dx)
                     if abs(dy) > 1:
-                        dy = copysign(abs(dy)-1, dy)
-                    self.set_tail(idx, tail + (dx, dy))
+                        dy = copysign(abs(dy) - 1, dy)
+                    self.set_tail(idx, (*tail, dx, dy))
 
     def show_map(self) -> None:
-        "Show the current map"
-        rev_stack = {tuple(v):k for k, v in self.stack.items()}
+        "Show the current map."  # noqa: D300
+        rev_stack = {tuple(v): k for k, v in self.stack.items()}
         # Find min and max of view port
         stack = set(rev_stack)
         points = self.visited | stack
@@ -137,30 +138,30 @@ class RopeSimLong:
         minx, maxx = minmax[0]
         miny, maxy = minmax[1]
         # Only do one print call to speed it up
-        lines = ''
+        lines = ""
         # Need to flip y axis
-        for y in reversed(range(miny-1, maxy+2)):
-            for x in range(minx-1, maxx+2):
+        for y in reversed(range(miny - 1, maxy + 2)):
+            for x in range(minx - 1, maxx + 2):
                 if (x, y) in self.visited:
                     if x == 0 and y == 0:
-                        lines += 's'
+                        lines += "s"
                         continue
-                    lines += '#'
+                    lines += "#"
                     continue
                 if (x, y) in stack:
                     item = rev_stack[(x, y)]
                     if item == 0:
-                        lines += 'H'
+                        lines += "H"
                         continue
                     lines += str(item)
                     continue
-                lines += '.'
-            lines += '\n'
+                lines += "."
+            lines += "\n"
         print(lines)
 
 
 def part_one(commands: list[tuple[str, int]]) -> int:
-    "Calculate how many positions the tail of the rope visits at least once"
+    "Calculate how many positions the tail of the rope visits at least once."  # noqa: D300
     sim = RopeSim()
     for direction, count in commands:
         sim.step(direction, count)
@@ -168,26 +169,25 @@ def part_one(commands: list[tuple[str, int]]) -> int:
 
 
 def part_two(commands: list[tuple[str, int]]) -> int:
-    "Calculate how many positions the tail of the rope visits at least once"
+    "Calculate how many positions the tail of the rope visits at least once."  # noqa: D300
     sim = RopeSimLong(10)
     for direction, count in commands:
         sim.step(direction, count)
     return len(sim.visited)
 
 
-
 def run() -> None:
-    "Synchronous entry point"
+    "Synchronous entry point."  # noqa: D300, D401
     if not SHOW_STEP:
         print("Hey try turning SHOW_STEP to True it's cool\n")
-##    test_data = """R 4
-##U 4
-##L 3
-##D 1
-##R 4
-##D 1
-##L 5
-##R 2"""
+    ##    test_data = """R 4
+    ##U 4
+    ##L 3
+    ##D 1
+    ##R 4
+    ##D 1
+    ##L 5
+    ##R 2"""
     test_data = """R 5
 U 8
 L 8
@@ -200,18 +200,18 @@ U 20"""
     instructions: list[tuple[str, int]] = []
 
     file = io.StringIO(test_data)
-##    file = open('day9.txt', encoding='utf-8')
+    ##    file = open('day9.txt', encoding='utf-8')
 
     for line in file:
-        command, spaces = line.split(' ', 1)
+        command, spaces = line.split(" ", 1)
         instructions.append((command, int(spaces)))
 
     file.close()
 
-    print(f'{part_one(instructions) = }')
-    print(f'{part_two(instructions) = }')
+    print(f"{part_one(instructions) = }")
+    print(f"{part_two(instructions) = }")
 
 
-if __name__ == '__main__':
-    print(f'{__title__}\nProgrammed by {__author__}.\n')
+if __name__ == "__main__":
+    print(f"{__title__}\nProgrammed by {__author__}.\n")
     run()
