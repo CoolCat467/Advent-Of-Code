@@ -68,15 +68,15 @@ def run() -> None:
     ##pqr3stu8vwx
     ##a1b2c3d4e5f
     ##treb7uchet"""
-    ##    input_ = """two1nine
-    ##eightwo2three
-    ##abcone2threexyz
-    ##xtwone3four
-    ##4nineeightseven2
-    ##zoneight234
-    ##7pqrstsixteen"""
-    with open("day1.txt", encoding="utf-8") as file:
-        input_ = file.read()
+    input_ = """two1nine
+eightwo2three
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen"""
+    ##    with open("day1.txt", encoding="utf-8") as file:
+    ##        input_ = file.read()
     print(f"{process(input_) = }")
 
 
