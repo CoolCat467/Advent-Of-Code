@@ -182,8 +182,8 @@ T55J5 684
 KK677 28
 KTJJT 220
 QQQJA 483"""
-    with open("day7.txt", encoding="utf-8") as file:
-        input_ = file.read()
+    ##    with open("day7.txt", encoding="utf-8") as file:
+    ##        input_ = file.read()
     print("Part two is broken!")
     print(f"{process(input_) = }")
 

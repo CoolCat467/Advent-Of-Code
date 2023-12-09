@@ -57,8 +57,8 @@ def run() -> None:
 22C = (22Z, 22Z)
 22Z = (22B, 22B)
 XXX = (XXX, XXX)"""
-    with open("day8.txt", encoding="utf-8") as file:
-        input_ = file.read()
+    ##with open("day8.txt", encoding="utf-8") as file:
+    ##    input_ = file.read()
     print(f"{process(input_) = }")
 
 

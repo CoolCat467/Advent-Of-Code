@@ -10,7 +10,10 @@ __version__ = "0.0.0"
 
 import math
 import re
-from typing import Final, Generator
+from typing import TYPE_CHECKING, Final
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 NUMBER_REGEX: Final = re.compile(r"\d+")
 
@@ -117,8 +120,8 @@ def run() -> None:
     """Print answer."""
     input_ = """Time:      7  15   30
 Distance:  9  40  200"""
-    with open("day6.txt", encoding="utf-8") as file:
-        input_ = file.read()
+    ##with open("day6.txt", encoding="utf-8") as file:
+    ##    input_ = file.read()
     print(f"{process(input_) = }")
 
 

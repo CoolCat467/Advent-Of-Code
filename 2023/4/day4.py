@@ -9,7 +9,10 @@ __author__ = "CoolCat467"
 __version__ = "0.0.0"
 
 import re
-from typing import Final, Generator
+from typing import TYPE_CHECKING, Final
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 NUMBER_REGEX: Final = re.compile(r"\d+")
 
