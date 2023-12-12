@@ -14,6 +14,10 @@ if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
 
 
+# Useful info for part two:
+# https://gamedev.stackexchange.com/questions/141460/how-can-i-fill-the-interior-of-a-closed-loop-on-a-tile-map/141461
+
+
 def get_outline(
     line_no: int,
     column_no: int,
