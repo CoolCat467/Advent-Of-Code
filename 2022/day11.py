@@ -122,7 +122,7 @@ class MonkeyProcessor:
             item = self.held[mid].popleft()
             self.inspect(mid, item)
 
-    def round(self) -> None:  # noqa: A003
+    def round(self) -> None:
         "Perform one round of monkeys taking turns."  # noqa: D300
         for mid in self.monkeys:
             self.turn(mid)

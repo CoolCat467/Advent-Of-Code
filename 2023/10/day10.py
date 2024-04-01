@@ -166,8 +166,10 @@ def furthest_from(
 
 
 def make_graphic(
-    distances: dict[int, Iterable[tuple[int, int]]]
-    | dict[str, Iterable[tuple[int, int]]],
+    distances: (
+        dict[int, Iterable[tuple[int, int]]]
+        | dict[str, Iterable[tuple[int, int]]]
+    ),
     bounds: tuple[int, int],
 ) -> str:
     """Generate graphic given distances table."""
