@@ -106,8 +106,7 @@ def part_one(  # noqa: D103
 
 def part_two(  # noqa: D103
     valves: dict[str, tuple[int, tuple[str, ...]]],
-) -> int:
-    ...
+) -> int: ...
 
 
 def run() -> None:

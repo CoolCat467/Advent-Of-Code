@@ -26,13 +26,11 @@ class Instruction:
 CYCLES: Final = {"noop": 1, "addx": 2}
 
 
-def cpu_generator() -> (
-    Generator[
-        tuple[dict[str, int], tuple[Instruction | None, int], bool],
-        list[Instruction] | Instruction | None,
-        None,
-    ]
-):
+def cpu_generator() -> Generator[
+    tuple[dict[str, int], tuple[Instruction | None, int], bool],
+    list[Instruction] | Instruction | None,
+    None,
+]:
     "CPU Generator."  # noqa: D300
     registers: dict[str, int] = {"X": 1}
     buffer: deque[Instruction] = deque()

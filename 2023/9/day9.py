@@ -35,7 +35,7 @@ def delta(sequence: Iterable[int]) -> Generator[int, None, None]:
 def extrapolate(sequence: tuple[int, ...]) -> int:
     """Extrapolate the next value of a given sequence."""
     deltas = tuple(delta(sequence))
-    ##    print(deltas)
+    print(deltas)
     different = set(deltas)
     if len(different) == 1:
         difference = next(iter(different))
