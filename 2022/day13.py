@@ -11,8 +11,10 @@ __author__ = "CoolCat467"
 __version__ = "0.0.0"
 
 
+import functools
 import io
 import json
+import operator
 from typing import Any, cast
 
 Packet = int | list[int] | list[list[Any]]
@@ -64,7 +66,11 @@ def part_one(pairs: list[tuple[str, str]]) -> int:
 
 def part_two(pairs: list[tuple[str, str]]) -> int:
     "Calculate the decoder key for the distress signal."  # noqa: D300
-    values: list[str] = sum((list(pair) for pair in pairs), start=[])
+    values: list[str] = functools.reduce(
+        operator.iadd,
+        (list(pair) for pair in pairs),
+        [],
+    )
     dividers = ("[[2]]", "[[6]]")
     values.extend(dividers)
     ordered: list[str] = [values[0]]

@@ -10,7 +10,9 @@ __title__ = "Advent of Code 2022 Day 7"
 __author__ = "CoolCat467"
 __version__ = "0.0.0"
 
+import functools
 import io
+import operator
 
 import numpy as np
 
@@ -21,9 +23,10 @@ def to_grid(
     "Convert lines into array."  # noqa: D300
     width = len(lines[0])
     height = len(lines)
-    values: list[int] = sum(
+    values: list[int] = functools.reduce(
+        operator.iadd,
         ([int(char) for char in line] for line in lines),
-        start=[],
+        [],
     )
     return np.array(values, dtype=np.int0).reshape((width, height))
 
