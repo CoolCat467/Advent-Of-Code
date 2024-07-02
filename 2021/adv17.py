@@ -59,9 +59,7 @@ class ProbeSim:
         if pos_x < xmin or pos_x > xmax:
             return False
         ymin, ymax = self.target["y"]
-        if pos_y < ymin or pos_y > ymax:
-            return False
-        return True
+        return pos_y >= ymin and pos_y <= ymax
 
     def test_path(self, speed_x, speed_y):
         "Test path with speed of speed_x, speed_y."  # noqa: D300
