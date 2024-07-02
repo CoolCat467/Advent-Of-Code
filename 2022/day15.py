@@ -147,9 +147,7 @@ def value_in_range(value: int, start: int, end: int) -> bool:
     "Return if value is within start to end range."  # noqa: D300
     if value < start:
         return False
-    if value > end:
-        return False
-    return True
+    return value <= end
 
 
 def print_sensors(
