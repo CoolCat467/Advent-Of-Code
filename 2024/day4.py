@@ -90,7 +90,7 @@ def yield_block_chars(
     grid_x: int,
     grid_y: int,
     grid: list[str],
-) -> Generator[str, None, None]:
+) -> Generator[str | None, None, None]:
     """Yield 3x3 block characters with None to indicate next row."""
     for char_x in range(grid_x, grid_x + 3):
         for char_y in range(grid_y, grid_y + 3):
@@ -98,11 +98,11 @@ def yield_block_chars(
         yield None
 
 
-def yield_block(
+def get_block(
     grid_x: int,
     grid_y: int,
     grid: list[str],
-) -> Generator[list[str], None, None]:
+) -> list[str]:
     """Yield 3x3 blocks as lists of block row lines."""
     rows = []
     row = ""
@@ -123,7 +123,7 @@ def iter_blocks(grid: list[str]) -> Generator[list[str], None, None]:
     y_blocks = height - 2 if height >= 3 else 0
     for x in range(x_blocks):
         for y in range(y_blocks):
-            yield yield_block(x, y, grid)
+            yield get_block(x, y, grid)
 
 
 def rotate_block_90(block: list[str]) -> list[str]:
