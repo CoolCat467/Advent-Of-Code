@@ -10,7 +10,15 @@ Advent of code
 
 <!-- END BADGIE TIME -->
 
-This is my Advent of Code repository for the https://adventofcode.com/ event
+This is my Advent of Code repository for the https://adventofcode.com/ events
 
 Please do try it out yourself before seeing my solutions, it's quite fun
 and can help stretch your abilities.
+
+
+### Links
+* Source Code - https://github.com/CoolCat467/Advent-Of-Code.git
+
+### License
+-------
+Code and documentation are available according to the GNU General Public License v3.0 (see [LICENSE](https://github.com/CoolCat467/Advent-Of-Code/blob/HEAD/LICENSE)).
