@@ -46,7 +46,7 @@ def handle_instructions_p1(instructions: str) -> int:
 
 
 def handle_instructions_p2(instructions: str) -> int:
-    """Handle multiply instructions for part one."""
+    """Handle multiply instructions for part two."""
     total = 0
     enable = True
     for match in PART_TWO_MATCH.finditer(instructions):
