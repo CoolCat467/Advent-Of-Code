@@ -63,7 +63,7 @@ class FishSim:
 # pylint: disable=R0903
 class BetterFishSim:
     "Better fish simulation."  # noqa: D300
-    __slots__ = ("delay", "init_add", "future")
+    __slots__ = ("delay", "future", "init_add")
     """Initial simulation is bad and can't handle trillions of fish in a realistic
 amount of time. Instead, just remember how many are going to have spawn in a number
 of days in the future. Then, for processing days, just pop zero, add value to

@@ -46,7 +46,8 @@ def parse_line(line):
         auto_score += AUTO_SCORES[value]
         add += CLOSES[value]
     error_score = sum(
-        count * mult for count, mult in zip(errors.values(), ERROR_SCORES)
+        count * mult
+        for count, mult in zip(errors.values(), ERROR_SCORES, strict=False)
     )
     return error_score, auto_score
 

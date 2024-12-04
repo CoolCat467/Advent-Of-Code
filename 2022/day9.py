@@ -12,7 +12,10 @@ __version__ = "0.0.0"
 
 import dataclasses
 import io
-from typing import Final, Iterable, Iterator
+from typing import TYPE_CHECKING, Final
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable, Iterator
 
 SHOW_STEP: Final = False
 

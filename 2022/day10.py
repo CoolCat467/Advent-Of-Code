@@ -13,7 +13,10 @@ __version__ = "0.0.0"
 import io
 from collections import deque
 from dataclasses import dataclass
-from typing import Final, Generator
+from typing import TYPE_CHECKING, Final
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 @dataclass(slots=True)

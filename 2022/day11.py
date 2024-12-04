@@ -14,7 +14,10 @@ import dataclasses
 import io
 from collections import deque
 from math import lcm
-from typing import Callable
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 @dataclasses.dataclass(slots=True)
@@ -62,7 +65,7 @@ def get_monkey(data: str) -> Monkey:
 
 class MonkeyProcessor:
     "Bad monkey processor that can't handle super long simulations."  # noqa: D300
-    __slots__ = ("monkeys", "held", "counts", "lcm", "do_div")
+    __slots__ = ("counts", "do_div", "held", "lcm", "monkeys")
     debug = False
 
     def __init__(  # noqa: D107

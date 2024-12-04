@@ -43,7 +43,7 @@ def simpleop(function):
         return function(*values)
 
     def operator(self, rhs):
-        return self.__class__(*map(apply, zip(self, rhs)))
+        return self.__class__(*map(apply, zip(self, rhs, strict=False)))
 
     return operator
 
@@ -162,14 +162,14 @@ class Vector:
 
     def __gt__(self, rhs):  # noqa: D105
         if hasattr(rhs, "__iter__"):
-            return all(x > y for x, y in zip(self, rhs))
+            return all(x > y for x, y in zip(self, rhs, strict=False))
             ##            return self.magnitude > self.from_iter(rhs).magnitude
             raise TypeError("Cannot compare iterables")
         return all(x > rhs for x in self)
 
     def __ge__(self, rhs):  # noqa: D105
         if hasattr(rhs, "__iter__"):
-            return all(x >= y for x, y in zip(self, rhs))
+            return all(x >= y for x, y in zip(self, rhs, strict=False))
             ##            return self.magnitude > self.from_iter(rhs).magnitude
             raise TypeError("Cannot compare iterables")
         return all(x >= rhs for x in self)

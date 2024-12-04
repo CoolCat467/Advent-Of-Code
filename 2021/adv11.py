@@ -93,7 +93,7 @@ class Grid:
         ##        flash = self.grid > 9
         ##        print(flash)
         over = np.where(self.grid > 9)
-        flashes = deque(zip(*over))
+        flashes = deque(zip(*over, strict=False))
         processed = set(flashes)
         flashed = 0
         while flashes:

@@ -13,7 +13,10 @@ __version__ = "0.0.0"
 
 import dataclasses
 import io
-from typing import Iterable, Iterator, cast
+from typing import TYPE_CHECKING, cast
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable, Iterator
 
 
 def copysign(x: int, y: int) -> int:

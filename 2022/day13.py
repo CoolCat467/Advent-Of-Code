@@ -38,7 +38,7 @@ def compare(left: Packet, right: Packet) -> bool | None:
         if isinstance(right, int):
             return compare(left, [right])
     else:
-        for left_val, right_val in zip(left, right):
+        for left_val, right_val in zip(left, right, strict=False):
             state = compare(cast(Packet, left_val), cast(Packet, right_val))
             if state is None:
                 continue

@@ -27,7 +27,9 @@ def find_numbers(line: str) -> Generator[int, None, None]:
 def part_one(text: str) -> int:
     """Return error margin from part one."""
     time_str, distance_str = (line.split(":")[1] for line in text.splitlines())
-    races = tuple(zip(find_numbers(time_str), find_numbers(distance_str)))
+    races = tuple(
+        zip(find_numbers(time_str), find_numbers(distance_str), strict=False),
+    )
     error_margin = 1
     for time, record_distance in races:
         ways_to_win = 0

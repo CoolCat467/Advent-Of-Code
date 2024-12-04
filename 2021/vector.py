@@ -39,7 +39,10 @@ def simpleop(function):
 
     @wraps(function)
     def operator(self, rhs):
-        return self.__class__(*map(apply, zip(self, rhs)), dtype=self.dtype)
+        return self.__class__(
+            *map(apply, zip(self, rhs, strict=False)),
+            dtype=self.dtype,
+        )
 
     return operator
 

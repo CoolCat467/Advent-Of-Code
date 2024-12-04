@@ -58,7 +58,7 @@ def simulate_deterministic(initials):  # noqa: D103
 
 
 class QuantumPlayer:  # noqa: D101
-    __slots__ = ("num", "score", "pos")
+    __slots__ = ("num", "pos", "score")
 
     def __init__(self, num, pos, score=0):  # noqa: D107
         self.num = num

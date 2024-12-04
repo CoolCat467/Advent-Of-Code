@@ -17,12 +17,13 @@ __ver_major__ = 0
 __ver_minor__ = 0
 __ver_patch__ = 0
 
+import itertools
 from collections import Counter
 
 
 def get_pairs(template):
     "Return pairs in template."  # noqa: D300
-    return tuple(x + y for x, y in zip(template, template[1:]))
+    return tuple(x + y for x, y in itertools.pairwise(template, template[1:]))
 
 
 def insert_pairs(template, rules):

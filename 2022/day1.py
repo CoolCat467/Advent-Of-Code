@@ -14,9 +14,12 @@ __version__ = "0.0.0"
 
 
 import io
-from typing import AsyncGenerator
+from typing import TYPE_CHECKING
 
 import trio
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncGenerator
 
 
 async def handler() -> AsyncGenerator[list[int], str | None]:
