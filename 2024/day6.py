@@ -26,11 +26,13 @@ __version__ = "0.0.0"
 __license__ = "GNU General Public License Version 3"
 
 
-from collections import Counter
 from enum import IntEnum, auto
 from pathlib import Path
 from time import perf_counter_ns
-from typing import NamedTuple, Self
+from typing import TYPE_CHECKING, NamedTuple, Self
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 class Dir(IntEnum):
@@ -118,6 +120,29 @@ class Map(NamedTuple):
         return Dir(self.guard_dir % 2)
 
 
+def get_point_edges(
+    x: int,
+    y: int,
+) -> tuple[tuple[int, int], tuple[int, int], tuple[int, int], tuple[int, int]]:
+    """Return edges of given point."""
+    return (
+        (x - 1, y),
+        (x + 1, y),
+        (x, y - 1),
+        (x, y + 1),
+    )
+
+
+def get_intersection_edges(
+    intersections: Iterable[tuple[int, int]],
+) -> set[tuple[int, int]]:
+    """Return set of all edges of all intersections."""
+    points: set[tuple[int, int]] = set()
+    for x, y in intersections:
+        points.update(get_point_edges(x, y))
+    return points
+
+
 def run() -> None:
     """Run program."""
     data = """....#.....
@@ -134,10 +159,10 @@ def run() -> None:
     map_ = Map.load(data)
     unique_pos: set[tuple[int, int]] = set()
     pos_dirs: dict[tuple[int, int], Dir] = {}
-    unique_pos_count: Counter[tuple[int, int]] = Counter()
+    # unique_pos_count: Counter[tuple[int, int]] = Counter()
     while not map_.guard_out_of_bounds():
         unique_pos.add(map_.guard_pos)
-        unique_pos_count[map_.guard_pos] += 1
+        # unique_pos_count[map_.guard_pos] += 1
         if map_.guard_pos not in pos_dirs:
             pos_dirs[map_.guard_pos] = map_.get_guard_direction()
         elif pos_dirs[map_.guard_pos] != map_.get_guard_direction():
@@ -145,15 +170,29 @@ def run() -> None:
         map_ = map_.map_tick()
     print(f"{len(unique_pos) = }")
 
+    ##rows: set[int] = set()
+    ##cols: set[int] = set()
+    ##for (col, row), dir_ in pos_dirs.items():
+    ##    if dir_ == Dir.both:
+    ##        rows.add(row)
+    ##        cols.add(col)
+    ##    elif dir_ == Dir.left_right:
+    ##        rows.add(row)
+    ##    elif dir_ == Dir.up_down:
+    ##        cols.add(col)
+    ##intersections = {(x, y) for x in rows for y in cols}
+
     # brute force bad
     print("Will take around 1 minute and 27 seconds")
     max_ = round(len(unique_pos) * 1.5)
     valid = 0
     map_ = Map.load(data)
+    available_placements = unique_pos - map_.boxes - {(map_.guard_pos)}
+    ##intersections = {pos for pos, dir_ in pos_dirs.items() if dir_ == Dir.both}
+    ##available_placements &= get_intersection_edges(intersections)
+    print(f"{len(available_placements) = }")
     start = perf_counter_ns()
-    for x, y in unique_pos - map_.boxes:
-        if map_.guard_pos == (x, y):
-            continue
+    for x, y in available_placements:
         ##prev_dir_at_box = pos_dirs[(x, y)]
         # Make copy with new box in it
         new_boxes = map_.boxes | {(x, y)}
