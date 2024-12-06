@@ -193,52 +193,25 @@ def run() -> None:
     print(f"{len(available_placements) = }")
     start = perf_counter_ns()
     for x, y in available_placements:
-        ##prev_dir_at_box = pos_dirs[(x, y)]
         # Make copy with new box in it
         new_boxes = map_.boxes | {(x, y)}
 
-        ##guard_pos = map_.guard_pos
-        ##guard_dir = map_.guard_dir
-
-        ##    # Go to last position at this position
-        ##    nx, ny = x, y
-        ##    if map_.guard_dir % 2 == 0:
-        ##        # Up down
-        ##        ny -= ((map_.guard_dir >= 2) * 2) - 1
-        ##    else:
-        ##        nx -= 1 - ((map_.guard_dir >= 2) * 2)
-        ##    guard_dir = prev_dir_at_box
-        ##    guard_pos = (nx, ny)
         copy = map_._replace(boxes=new_boxes)
-        # , guard_pos=guard_pos, guard_dir=guard_dir)
-        ##unique_pos_count_copy: Counter[tuple[int, int]] = Counter()
-        ##same = 0
+        seen_data: set[tuple[int, int, int]] = set()
         for _ in range(max_):
+            pos_data = (*copy.guard_pos, copy.guard_dir)
+            if pos_data not in seen_data:
+                seen_data.add(pos_data)
+            else:
+                # Already been here, so looping!
+                valid += 1
+                break
             if copy.guard_out_of_bounds():
                 break
-            ##unique_pos_count_copy[map_.guard_pos] += 1
-            ##prev_dir_here = pos_dirs.get(copy.guard_pos)
-            ##if (
-            ##    prev_dir_here is not None
-            ##    and (
-            ##        prev_dir_here == Dir.both
-            ##        or prev_dir_here == copy.get_guard_direction()
-            ##    )
-            ##    and (
-            ##        unique_pos_count_copy[map_.guard_pos]
-            ##        > unique_pos_count[map_.guard_pos]
-            ##    )
-            ##):
-            ##    # Been here before facing same direction
-            ##    same += 1
-            ##if same > (len(unique_pos) // 2):
-            ##    valid += 1
-            ##    break
             copy = copy.map_tick()
         else:
             # If continued without hitting break
             valid += 1
-            ##print(f'{same = }')
     end = perf_counter_ns()
     print(f"{valid = }")
     print(f"{(end - start) / 1e9} seconds")
