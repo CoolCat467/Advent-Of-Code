@@ -1,7 +1,5 @@
 ci:
-  autofix_commit_msg: "[pre-commit.ci] auto fixes from pre-commit.com hooks"
   autofix_prs: true
-  autoupdate_commit_msg: "[pre-commit.ci] pre-commit autoupdate"
   autoupdate_schedule: quarterly
   skip: [badgie]
   submodules: false
@@ -20,13 +18,6 @@ repos:
       - id: check-case-conflict
       - id: sort-simple-yaml
         files: .pre-commit-config.yaml
-  - repo: https://github.com/hadialqattan/pycln
-    rev: v2.4.0
-    hooks:
-      - id: pycln
-        args: [--config=pyproject.toml, "2021", "2022", "2023"]
-        types: [file]
-        types_or: [python, pyi]
   - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 24.10.0
     hooks:
