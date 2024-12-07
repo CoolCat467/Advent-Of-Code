@@ -64,23 +64,25 @@ class Map(NamedTuple):
         boxes: list[tuple[int, int]] = []
         for y, line in enumerate(lines):
             for x, char in enumerate(line):
+                # Blank, not important
                 if char == ".":
                     continue
+                # Box/object of some sort
                 if char == "#":
                     boxes.append((x, y))
                     continue
+                # Guard
+                guard_pos = (x, y)
                 if char == "^":
-                    guard_pos = (x, y)
                     guard_dir = 0
-                if char == ">":
-                    guard_pos = (x, y)
+                elif char == ">":
                     guard_dir = 1
-                if char == "v":
-                    guard_pos = (x, y)
+                elif char == "v":
                     guard_dir = 2
-                if char == "<":
-                    guard_pos = (x, y)
+                elif char == "<":
                     guard_dir = 3
+                else:
+                    raise ValueError(f"Unhandled character {char!r}")
         return cls(
             (width, height),
             guard_pos,
@@ -96,11 +98,16 @@ class Map(NamedTuple):
             y += ((self.guard_dir >= 2) * 2) - 1
         else:
             x += 1 - ((self.guard_dir >= 2) * 2)
+
         next_ = (x, y)
         dir_ = self.guard_dir
+        # If new position inside a box,
         if next_ in self.boxes:
+            # go back to old position
             next_ = self.guard_pos
+            # rotate 90 degrees
             dir_ = (dir_ + 1) % 4
+
         return self._replace(
             guard_pos=next_,
             guard_dir=dir_,
@@ -155,18 +162,27 @@ def run() -> None:
 ........#.
 #.........
 ......#..."""
-    data = Path("day6.txt").read_text()
+    data_file = Path("day6.txt")
+    if data_file.exists():
+        data = data_file.read_text()
+
+    # Load map
     map_ = Map.load(data)
+
     unique_pos: set[tuple[int, int]] = set()
     pos_dirs: dict[tuple[int, int], Dir] = {}
-    # unique_pos_count: Counter[tuple[int, int]] = Counter()
+    # Simulate movement until out of bounds
     while not map_.guard_out_of_bounds():
+        # Remember current position
         unique_pos.add(map_.guard_pos)
-        # unique_pos_count[map_.guard_pos] += 1
+
+        # Remember directions
         if map_.guard_pos not in pos_dirs:
             pos_dirs[map_.guard_pos] = map_.get_guard_direction()
         elif pos_dirs[map_.guard_pos] != map_.get_guard_direction():
             pos_dirs[map_.guard_pos] = Dir.both
+
+        # Get next tick
         map_ = map_.map_tick()
     print(f"{len(unique_pos) = }")
 
@@ -185,18 +201,26 @@ def run() -> None:
     # brute force bad
     print("Will take around 1 minute and 27 seconds")
     max_ = round(len(unique_pos) * 1.5)
+
     valid = 0
+
+    # Reload map
     map_ = Map.load(data)
+
+    # Find possible place locations
     available_placements = unique_pos - map_.boxes - {(map_.guard_pos)}
     ##intersections = {pos for pos, dir_ in pos_dirs.items() if dir_ == Dir.both}
     ##available_placements &= get_intersection_edges(intersections)
+
     print(f"{len(available_placements) = }")
+
     start = perf_counter_ns()
     for x, y in available_placements:
         # Make copy with new box in it
         new_boxes = map_.boxes | {(x, y)}
 
         copy = map_._replace(boxes=new_boxes)
+
         seen_data: set[tuple[int, int, int]] = set()
         for _ in range(max_):
             pos_data = (*copy.guard_pos, copy.guard_dir)
@@ -206,8 +230,12 @@ def run() -> None:
                 # Already been here, so looping!
                 valid += 1
                 break
+
+            # If out of bounds, bad
             if copy.guard_out_of_bounds():
                 break
+
+            # Tick map
             copy = copy.map_tick()
         else:
             # If continued without hitting break

@@ -78,10 +78,13 @@ def iter_diagonal(grid: list[str]) -> Generator[str, None, None]:
 
 def iter_grid(grid: list[str]) -> Generator[str, None, None]:
     """Yield rows, columns, and both diagonals from grid."""
+    # Rows
     yield from grid
+    # Columns
     width = len(grid[0])
     for col in range(width):
         yield "".join(row[col] for row in grid)
+    # Diagonals
     yield from iter_diagonal(grid)
     yield from iter_diagonal(grid[::-1])
 
@@ -127,7 +130,7 @@ def iter_blocks(grid: list[str]) -> Generator[list[str], None, None]:
 
 
 def rotate_block_90(block: list[str]) -> list[str]:
-    """Return square text rotated by 90 degrees counterclockwise."""
+    """Return square text rotated by 90 degrees clockwise."""
     return [
         "".join(block[len(block) - 1 - j][i] for j in range(len(block)))
         for i in range(len(block[0]))
@@ -165,12 +168,19 @@ SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX""".splitlines()
-    data = Path("day4.txt").read_text().splitlines()
+    data_file = Path("day4.txt")
+    if data_file.exists():
+        data = data_file.read_text().splitlines()
+
+    # Find `XMAS` counts
     count = 0
-    for orig_line in iter_grid(data):
-        for line in (orig_line, orig_line[::-1]):
+    for original_line in iter_grid(data):
+        # Look forward and in reverse
+        for line in (original_line, original_line[::-1]):
             count += line.count("XMAS")
     print(f"{count = }")
+
+    # Find `MAS` crosses
     block_count = 0
     for block in iter_blocks(data):
         if match_block_all_rotations(block):

@@ -40,7 +40,9 @@ PART_TWO_MATCH = re.compile(
 def handle_instructions_p1(instructions: str) -> int:
     """Handle multiply instructions for part one."""
     total = 0
+    # Find multiply matches
     for match in PART_ONE_MATCH.finditer(instructions):
+        # Add parameters times each other to total
         total += reduce(mul, map(int, match.groups()))
     return total
 
@@ -49,15 +51,19 @@ def handle_instructions_p2(instructions: str) -> int:
     """Handle multiply instructions for part two."""
     total = 0
     enable = True
+    # Find multiply and toggle matches
     for match in PART_TWO_MATCH.finditer(instructions):
+        # Get matched text
         start, end = match.span()
         matched = match.string[start:end]
+        # Handle enable and disable
         if matched == "do()":
             enable = True
             continue
         if matched == "don't()":
             enable = False
             continue
+        # Otherwise it's a multiply instruction, only perform if enabled
         if enable:
             total += reduce(mul, map(int, match.groups()))
     return total
@@ -67,9 +73,15 @@ def run() -> None:
     """Run program."""
     # data = """xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"""
     data = """xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"""
-    data = Path("day3.txt").read_text()
+    data_file = Path("day3.txt")
+    if data_file.exists():
+        data = data_file.read_text()
+
+    # Handle multiply instructions
     part_one = handle_instructions_p1(data)
     print(f"{part_one = }")
+
+    # Handle multiply but with enable disable flags
     part_two = handle_instructions_p2(data)
     print(f"{part_two = }")
 

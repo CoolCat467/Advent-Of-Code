@@ -66,41 +66,24 @@ def report_is_safe_dampened(
     _recursive: bool = True,
 ) -> bool:
     """Return if report is safe if dampened."""
-    # print(f'{report = }')
     diff = tuple(delta(report))
     negative = diff[0] < 0
 
     for idx, item in enumerate(diff):
-        # print(f" {item}")
-        # If sign is different for any, bad
-        if (item < 0) != negative:
-            if _recursive:
-                for idx in range(len(report)):
-                    new_report = report[:idx] + report[idx + 1 :]
-                    if report_is_safe_dampened(new_report, False):
-                        return True
-                return False
-            return False
         abs_diff = abs(item)
-        if abs_diff < 1:
-            # print(" <1")
-            if _recursive:
-                for idx in range(len(report)):
-                    new_report = report[:idx] + report[idx + 1 :]
-                    if report_is_safe_dampened(new_report, False):
-                        return True
+        # print(f" {item}")
+        # If sign is different for any or abs difference is < 1 or > 3, bad
+        if (item < 0) != negative or abs_diff < 1 or abs_diff > 3:
+            # If already did recursion and still broken, it's unfixable
+            if not _recursive:
                 return False
+            # Otherwise, try removing one item from the report
+            for idx in range(len(report)):
+                new_report = report[:idx] + report[idx + 1 :]
+                if report_is_safe_dampened(new_report, False):
+                    # If dampened version is ok, report is ok.
+                    return True
             return False
-        if abs_diff > 3:
-            # print(" >3")
-            if _recursive:
-                for idx in range(len(report)):
-                    new_report = report[:idx] + report[idx + 1 :]
-                    if report_is_safe_dampened(new_report, False):
-                        return True
-                return False
-            return False
-
     return True
 
 
@@ -112,20 +95,25 @@ def run() -> None:
 1 3 2 4 5
 8 6 4 4 1
 1 3 6 7 9"""
-    data = Path("day2.txt").read_text()
+    data_file = Path("day2.txt")
+    if data_file.exists():
+        data = data_file.read_text()
+
+    # Parse data
     reports = [tuple(map(int, line.split(" "))) for line in data.splitlines()]
+
+    # Keep track of number of safe reports
     safe = 0
     for report in reports:
         if report_is_safe(report):
             safe += 1
     print(f"{safe = }")
+
+    # Find number of safe reports with error dampening
     safe_dampened = 0
     for report in reports:
         if report_is_safe_dampened(report):
-            # print("Safe")
             safe_dampened += 1
-        # else:
-        #    print("Unsafe")
     print(f"{safe_dampened = }")
 
 

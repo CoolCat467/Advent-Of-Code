@@ -32,39 +32,52 @@ from pathlib import Path
 
 def run() -> None:
     """Run program."""
+    # Load data
     data = """3   4
 4   3
 2   5
 1   3
 3   9
 3   3"""
-    data = Path("day1.txt").read_text()
+    data_file = Path("day1.txt")
+    if data_file.exists():
+        data = data_file.read_text()
+
+    # Parse data
     columns: list[Counter[int]] = [Counter(), Counter()]
     line_no = 0
     for line_no, line in enumerate(data.splitlines()):  # noqa: B007
         for column_id, value in enumerate(map(int, line.split())):
             columns[column_id][value] += 1
-    paired: list[tuple[int, int]] = []
-    diff: list[int] = []
+
+    # Save copy for later
     copy = [Counter(dict(x.items())) for x in columns]
+
+    # Calculating total distance between pairs in order
+    total_dist = 0
     for _ in range(line_no + 1):
+        # Pop left min item
         min_0 = min(columns[0])
         columns[0][min_0] -= 1
         count = columns[0][min_0]
         if not count:
             del columns[0][min_0]
+
+        # Pop right min item
         min_1 = min(columns[1])
         columns[1][min_1] -= 1
         count = columns[1][min_1]
         if not count:
             del columns[1][min_1]
-        paired.append((min_0, min_1))
-        dist = abs(min_0 - min_1)
-        diff.append(dist)
-    total_dist = sum(diff)
+
+        # Add difference to total distance
+        total_dist += abs(min_0 - min_1)
     print(f"{total_dist = }")
+
+    # Restore copy
     columns = copy
 
+    # Find "list similarity"
     similarity = 0
     for number, count in columns[0].items():
         similarity += (number * columns[1][number]) * count

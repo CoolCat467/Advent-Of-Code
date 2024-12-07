@@ -111,8 +111,13 @@ def run() -> None:
 75,97,47,61,53
 61,13,29
 97,13,75,29,47"""
-    data = Path("day5.txt").read_text()
+    data_file = Path("day5.txt")
+    if data_file.exists():
+        data = data_file.read_text()
+
+    # Parse Data
     rules: set[tuple[int, int]] = set()
+    # Get as generator so we can look with two separate processes
     gen = iter(data.splitlines())
     for line in gen:
         # Read rules until blank line
@@ -120,6 +125,7 @@ def run() -> None:
             break
         before, after = map(int, line.split("|"))
         rules.add((before, after))
+
     updates: list[tuple[int, ...]] = []
     # Remaining items are updates to perform
     for line in gen:
@@ -129,10 +135,13 @@ def run() -> None:
     part_two = 0
     for update in updates:
         if is_order_correct(update, rules):
+            # Add middle item to total
             part_one += update[len(update) // 2]
         else:
+            # Order not correct, so fix it
             corrected_update = fix_update(update, rules)
             assert is_order_correct(corrected_update, rules)
+            # Add middle item to total
             part_two += corrected_update[len(update) // 2]
     print(f"{part_one = }")
     print(f"{part_two = }")
