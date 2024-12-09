@@ -73,7 +73,7 @@ def run() -> None:
     """Run program."""
     # data = """xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))"""
     data = """xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))"""
-    data_file = Path("day3.txt")
+    data_file = Path(__file__).absolute().parent / "day3.txt"
     if data_file.exists():
         data = data_file.read_text()
 

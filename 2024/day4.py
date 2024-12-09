@@ -168,7 +168,7 @@ SMSMSASXSS
 SAXAMASAAA
 MAMMMXMMMM
 MXMXAXMASX""".splitlines()
-    data_file = Path("day4.txt")
+    data_file = Path(__file__).absolute().parent / "day4.txt"
     if data_file.exists():
         data = data_file.read_text().splitlines()
 

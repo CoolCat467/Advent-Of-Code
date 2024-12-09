@@ -162,7 +162,7 @@ def run() -> None:
 ........#.
 #.........
 ......#..."""
-    data_file = Path("day6.txt")
+    data_file = Path(__file__).absolute().parent / "day6.txt"
     if data_file.exists():
         data = data_file.read_text()
 
