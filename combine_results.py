@@ -39,17 +39,22 @@ import trio
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-type AsyncBytesFile = trio._file_io.AsyncIOWrapper[io.BufferedWriter]
+type AsyncWriteBytes = trio._file_io.AsyncIOWrapper[io.BufferedWriter]
+type AsyncReadBytes = trio._file_io.AsyncIOWrapper[io.BufferedReader]
 
 
 # bi format specs: https://github.com/tsoding/bi-format
-async def write_int_field(fp: AsyncBytesFile, name: bytes, value: int) -> None:
+async def write_int_field(
+    fp: AsyncWriteBytes,
+    name: bytes,
+    value: int,
+) -> None:
     """Write integer field to file."""
     await fp.write(b":i %s %d\n" % (name, value))
 
 
 async def write_blob_field(
-    fp: AsyncBytesFile,
+    fp: AsyncWriteBytes,
     name: bytes,
     blob: bytes,
 ) -> None:
@@ -60,7 +65,7 @@ async def write_blob_field(
 
 
 async def write_array_field(
-    fp: AsyncBytesFile,
+    fp: AsyncWriteBytes,
     name: bytes,
     blobs: Sequence[bytes],
 ) -> None:
@@ -70,7 +75,7 @@ async def write_array_field(
         await write_blob_field(fp, b"%s_%i" % (name, index), blob)
 
 
-async def read_int_field(fp: AsyncBytesFile, name: bytes) -> int:
+async def read_int_field(fp: AsyncReadBytes, name: bytes) -> int:
     """Read integer field from file."""
     line = await fp.readline()
     field = b":i " + name + b" "
@@ -79,7 +84,7 @@ async def read_int_field(fp: AsyncBytesFile, name: bytes) -> int:
     return int(line[len(field) : -1])
 
 
-async def read_blob_field(fp: AsyncBytesFile, name: bytes) -> bytes:
+async def read_blob_field(fp: AsyncReadBytes, name: bytes) -> bytes:
     """Read blob field from file."""
     line = await fp.readline()
     field = b":b " + name + b" "
@@ -91,7 +96,7 @@ async def read_blob_field(fp: AsyncBytesFile, name: bytes) -> bytes:
     return blob
 
 
-async def read_array_field(fp: AsyncBytesFile, name: bytes) -> list[bytes]:
+async def read_array_field(fp: AsyncReadBytes, name: bytes) -> list[bytes]:
     """Read blob field from file."""
     item_count = int((await read_blob_field(fp, name)).decode("utf-8"))
     blobs = []
@@ -114,9 +119,7 @@ async def run() -> None:
     if await result_file.exists():
         print("Loading prior results...")
         async with await result_file.open("rb") as fp:
-            # types: arg-type error: Argument 1 to "read_array_field" has incompatible type "AsyncIOWrapper[BufferedReader]"; expected "AsyncIOWrapper[BufferedWriter]"
             prior_results = await read_array_field(fp, b"results")
-    # types:                                           ^^
 
     scripts = sorted(
         file for file in await script_dir.iterdir() if file.suffix == ".py"
@@ -141,9 +144,7 @@ async def run() -> None:
 
     print("Action complete. Reading results...")
     results = []
-    # types: name-defined error: Name "enumerate" is not defined
     for index, process in enumerate(processes):
-        # types:          ^
         assert process.stdout is not None
         async with process.stdout as process_fp:
             buffer = bytearray()
@@ -154,6 +155,7 @@ async def run() -> None:
                 and index < len(prior_results)
                 and prior_results[index] != buffer
             ):
+                # Show differences
                 a = (
                     prior_results[index]
                     .decode("utf-8")
