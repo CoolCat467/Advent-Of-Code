@@ -36,6 +36,7 @@ if TYPE_CHECKING:
     )
 
 
+# Stolen from 2024 Day 6
 def get_point_edges(
     x: int,
     y: int,
