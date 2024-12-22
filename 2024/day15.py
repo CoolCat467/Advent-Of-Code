@@ -293,7 +293,7 @@ class DoubleMap(NamedTuple):
                 # Ok will need to mutate
                 new_boxes = set(boxes)
 
-                to_move: set[tuple[int, int]] = set()
+                to_move: set[tuple[tuple[int, int], tuple[int, int]]] = set()
                 hits_wall = False
                 for sub_box in current_box:
                     if sub_box in self.walls:

@@ -87,14 +87,14 @@ class InProgressSolve(NamedTuple):
 class Map(NamedTuple):
     """Map Object."""
 
-    walls: frozenset[tuple[int, int]]
+    walls: frozenset[Vector2]
     start: Vector2
     end: Vector2
 
     @classmethod
     def read_map(cls, map_data: list[str]) -> Self:
         """Return new Map object from map data."""
-        walls: set[tuple[int, int]] = set()
+        walls: set[Vector2] = set()
         start = Vector2(0, 0)
         end = Vector2(0, 0)
 
@@ -104,7 +104,7 @@ class Map(NamedTuple):
                     start = Vector2(x, y)
                     continue
                 if char == "#":
-                    walls.add((x, y))
+                    walls.add(Vector2(x, y))
                     continue
                 if char == "E":
                     end = Vector2(x, y)
@@ -120,14 +120,14 @@ class Map(NamedTuple):
 
     def render_map(
         self,
-        visited: Collection[tuple[int, int]] | None = None,
+        visited: Collection[Vector2] | None = None,
     ) -> None:
         """Render and print robot map to console."""
         # Find dimensions
         end_x, end_y = 0, 0
         for x, y in self.walls:
-            end_x = max(end_x, x)
-            end_y = max(end_y, y)
+            end_x = max(end_x, int(x))
+            end_y = max(end_y, int(y))
 
         # Type checker convinced Vector2 != tuple[int, int]
         start = vec2_to_int(self.start)
@@ -146,33 +146,33 @@ class Map(NamedTuple):
                 if (x, y) == end:
                     buffer += "E"
                     continue
-                if (x, y) in self.walls:
+                if Vector2(x, y) in self.walls:
                     buffer += "█"  # "#"
                     continue
-                if (x, y) in visited:
+                if Vector2(x, y) in visited:
                     buffer += "O"
                     continue
                 buffer += " "  # "."
             buffer += "\n"
         print(buffer)
 
-    def solve(self) -> tuple[int, dict[tuple[int, int], InProgressSolve]]:
+    def solve(self) -> tuple[int, dict[Vector2, InProgressSolve]]:
         """Solve and return min score and map of visited points."""
         # Find dimensions
         end_x, end_y = 0, 0
         for x, y in self.walls:
-            end_x = max(end_x, x)
-            end_y = max(end_y, y)
+            end_x = max(end_x, int(x))
+            end_y = max(end_y, int(y))
         path_points = {
-            (x, y) for x in range(end_x + 1) for y in range(end_y + 1)
+            Vector2(x, y) for x in range(end_x + 1) for y in range(end_y + 1)
         } - self.walls
 
-        visited: set[tuple[int, int]] = set()
-        path: dict[tuple[int, int], InProgressSolve] = {
+        visited: set[Vector2] = set()
+        path: dict[Vector2, InProgressSolve] = {
             self.start: InProgressSolve(1, 0, 0),
         }
 
-        def add_forward(solve, cur_pos):
+        def add_forward(solve: InProgressSolve, cur_pos: Vector2) -> None:
             new_pos, new_solve = solve.forward(cur_pos)
             if new_pos not in self.walls:
                 old_solve = path.get(new_pos)
@@ -212,14 +212,14 @@ class Map(NamedTuple):
 
 
 def find_best_path_counts(
-    path: dict[tuple[int, int], InProgressSolve],
-    start: tuple[int, int],
-    end: tuple[int, int],
-) -> set[tuple[int, int]]:
+    path: dict[Vector2, InProgressSolve],
+    start: Vector2,
+    end: Vector2,
+) -> set[Vector2]:
     """Return tiles used in best paths."""
     current = {end}
 
-    points: set[tuple[int, int]] = set()
+    points: set[Vector2] = set()
     show = False
     while start not in current:
         next_ = set()

@@ -33,6 +33,12 @@ import numpy as np
 from vector import Vector2
 
 
+def vec2_to_int(vec: Vector2) -> tuple[int, int]:
+    """Help mypy understand Vector2 is same as tuple[int, int]."""
+    x, y = vec
+    return int(x), int(y)
+
+
 class Machine(NamedTuple):
     """Claw machine data."""
 
@@ -70,7 +76,7 @@ def read_machines(data: str) -> tuple[Machine, ...]:
 
 def find_press_counts(
     machine: Machine,
-    initial_pos: tuple[int, int] | None = None,
+    initial_pos: Vector2 | None = None,
 ) -> Vector2 | None:
     """Return press counts for each button or None if no integer answer."""
     if initial_pos is None:
@@ -99,7 +105,7 @@ def find_press_counts(
 
     # Get solution
     # Answer might not be whole numbers however, meaning invalid answer.
-    solved = Vector2.from_iter(inverse @ difference).floored()
+    solved = Vector2.from_iter(inverse @ vec2_to_int(difference)).floored()
 
     # With flooring, we can be a hair off from reality
     for dx in range(2):
@@ -144,15 +150,15 @@ Prize: X=18641, Y=10279"""
 
     total_tokens = 0
     total_tokens_two = 0
-    initial_two = (10000000000000, 10000000000000)
+    initial_two = Vector2(10000000000000, 10000000000000)
     for machine in machines:
         press_counts = find_press_counts(machine)
         if press_counts is not None:
-            total_tokens += press_counts @ (3, 1)
+            total_tokens += int(press_counts @ (3, 1))
 
         press_counts = find_press_counts(machine, initial_two)
         if press_counts is not None:
-            total_tokens_two += press_counts @ (3, 1)
+            total_tokens_two += int(press_counts @ (3, 1))
     print(f"{total_tokens = }")
     print(f"{total_tokens_two = }")
 
