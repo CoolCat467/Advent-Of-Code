@@ -1,11 +1,11 @@
-"""Advent of Code 2224 Day 22."""
+"""Advent of Code 2024 Day 22."""
 
 # Programmed by CoolCat467
 
 from __future__ import annotations
 
-# Advent of Code 2224 Day 22
-# Copyright (C) 2224  CoolCat467
+# Advent of Code 2024 Day 22
+# Copyright (C) 2024  CoolCat467
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
