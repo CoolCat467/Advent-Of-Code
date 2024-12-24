@@ -76,7 +76,7 @@ class BingoBoard:
         return sum(unmarked) * self.to_win[-1]
 
 
-class BoardControler:
+class BoardController:
     "Board controller."  # noqa: D300
 
     def __init__(self, order, boards):  # noqa: D107
@@ -158,7 +158,7 @@ def run():
         data = rfile.read()
         rfile.close()
     # Solve 1
-    controller = BoardControler.read_file(data)
+    controller = BoardController.read_file(data)
     won = False
     has1 = False
     while controller.still_waiting():

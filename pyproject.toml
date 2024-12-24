@@ -29,6 +29,9 @@ warn_unused_ignores = true
 [tool.codespell]
 ignore-words-list = 'asend'
 
+[tool.typos.default.extend-words]
+asend = "asend"
+
 [tool.ruff.lint.isort]
 combine-as-imports = true
 

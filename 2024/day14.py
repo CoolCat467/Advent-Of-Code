@@ -54,7 +54,7 @@ BLOCK_LOOKUP: Final = {
 
 
 def read_vec2(pos: str) -> Vector2:
-    """Return Vector2 from comma-seperated numbers."""
+    """Return Vector2 from comma-separated numbers."""
     return Vector2.from_iter(map(int, pos.split(",", 1)))
 
 

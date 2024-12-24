@@ -97,7 +97,7 @@ def identify_sides(
                 continue
             ##            print(f'{point = } {valid_directions = }')
             for direction in valid_directions:
-                groupped_edges = set()
+                grouped_edges = set()
                 all_already_exist = True
                 min_count = point_count
                 for edge_point in yield_line(*point, direction):
@@ -112,11 +112,11 @@ def identify_sides(
                     min_count = min(min_count, edge_count)
                     if all_already_exist and edge_point not in points_in_sides:
                         all_already_exist = False
-                    groupped_edges.add(edge_point)
+                    grouped_edges.add(edge_point)
                 if all_already_exist:
                     ##                    less_than_all = True
                     ##                    for prev_min_count, prev_edge_group in edge_group_items:
-                    ##                        if groupped_edges.issubset(prev_edge_group):
+                    ##                        if grouped_edges.issubset(prev_edge_group):
                     ##                            if min_count > prev_min_count:
                     ##                                less_than_all = False
                     ##                                break
@@ -124,17 +124,17 @@ def identify_sides(
                     ##                        continue
                     continue
                 ##                if len(valid_directions) > 1:
-                ##                    print(f'{groupped_edges = }')
+                ##                    print(f'{grouped_edges = }')
                 sides += min_count
-                points_in_sides |= groupped_edges
+                points_in_sides |= grouped_edges
 
-                edge_group_items.append((min_count, groupped_edges))
+                edge_group_items.append((min_count, grouped_edges))
 
                 edge_counts[len(edge_groups)] = min_count
-                ##                edge_groups.append((str(len(edge_groups)), groupped_edges))
-                edge_groups.append((str(min_count), groupped_edges))
+                ##                edge_groups.append((str(len(edge_groups)), grouped_edges))
+                edge_groups.append((str(min_count), grouped_edges))
 
-    ##            print(f'{groupped_edges = }')
+    ##            print(f'{grouped_edges = }')
 
     ##    render = []
     ##    edge_groups.append(("S", set(sides_count.elements())))
@@ -243,7 +243,7 @@ def find_region_points(
 def identify_regions(
     map_: list[str],
 ) -> Generator[tuple[str, set[tuple[int, int]], int, int], None, None]:
-    """Yield tuples of region character, region area points, region peremiter, and number of sides region has."""
+    """Yield tuples of region character, region area points, region perimeter, and number of sides region has."""
     in_regions: set[tuple[int, int]] = set()
     for y, line in enumerate(map_):
         for x, char in enumerate(line):

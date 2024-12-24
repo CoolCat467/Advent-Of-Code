@@ -122,7 +122,7 @@ def length_conv(digits):
 
 
 ##
-##def find_with_lits(lit_SEGMENTS):
+##def find_with_list(lit_SEGMENTS):
 ##    lit = []
 ##    for number, data in SEGMENTS.items():
 ##        success = True
@@ -145,7 +145,7 @@ def length_conv(digits):
 ##            if not char in good:
 ##                continue
 ##            lit_SEGMENTS.append(good[char])
-##        from_lit = find_with_lits(lit_SEGMENTS)
+##        from_lit = find_with_list(lit_SEGMENTS)
 ##        pos = []
 ##        for p in from_lit:
 ##            if len(pattern) != SEG_COUNT_USED[p]:
