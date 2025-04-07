@@ -22,6 +22,7 @@ if TYPE_CHECKING:
 @dataclasses.dataclass(slots=True)
 class Point:
     "Represents a two dimensional point."  # noqa: D300
+
     x: int
     y: int
 

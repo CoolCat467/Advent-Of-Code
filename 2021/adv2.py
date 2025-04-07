@@ -20,6 +20,7 @@ from abc import ABC, abstractmethod
 
 class SubmarineCommand(ABC):
     "Command for submarine."  # noqa: D300
+
     name = None
 
     def __init__(self, nargs=1):  # noqa: D107
@@ -43,6 +44,7 @@ class SubmarineCommand(ABC):
 
 class Forward1(SubmarineCommand):
     "Forward command."  # noqa: D300
+
     name = "forward"
 
     def __init__(self):  # noqa: D107
@@ -54,6 +56,7 @@ class Forward1(SubmarineCommand):
 
 class Down1(SubmarineCommand):
     "Down command."  # noqa: D300
+
     name = "down"
 
     def __init__(self):  # noqa: D107
@@ -65,6 +68,7 @@ class Down1(SubmarineCommand):
 
 class Up1(SubmarineCommand):
     "Up command."  # noqa: D300
+
     name = "up"
 
     def __init__(self):  # noqa: D107
@@ -76,6 +80,7 @@ class Up1(SubmarineCommand):
 
 class SubmarineParser1:
     "Submarine parser, reads submarine commands and changes self.position from them."  # noqa: D300
+
     commands = [Forward1, Down1, Up1]  # noqa: RUF012
     init = {"x": 0, "y": 0}  # noqa: RUF012
 
@@ -120,6 +125,7 @@ class Up2(Up1):
 # pylint: disable=R0903
 class SubmarineParser2(SubmarineParser1):
     "Proper submarine parser."  # noqa: D300
+
     init = {"x": 0, "y": 0, "aim": 0}  # noqa: RUF012
     commands = [Forward2, Down2, Up2]  # noqa: RUF012
 

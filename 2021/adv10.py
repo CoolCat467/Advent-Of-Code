@@ -25,7 +25,7 @@ AUTO_SCORES = (1, 2, 3, 4)
 
 def parse_line(line):
     "Parse line and return."  # noqa: D300
-    errors = {i: 0 for i in range(len(CLOSES))}
+    errors = dict.fromkeys(range(len(CLOSES)), 0)
     stack = deque()
     for char in line:
         if char not in OPENS and char not in CLOSES:

@@ -104,10 +104,10 @@ def find_ops_concat(result: int, inputs: Sequence[str]) -> bool:
         op_result: str
         if op == operator.concat:
             # Otherwise is concat and uses strings
-            op_result = cast(Callable[[str, str], str], op)(left, right)
+            op_result = cast("Callable[[str, str], str]", op)(left, right)
         else:
             # Needs int values
-            fake_op = cast(Callable[[int, int], int], op)
+            fake_op = cast("Callable[[int, int], int]", op)
             op_result = str(fake_op(int_left, int_right))
         # Recursive, pass to self with op result and all other right values
         # If returns true, match was successful

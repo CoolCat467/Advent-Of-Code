@@ -73,6 +73,7 @@ def onlylen(length):
 
 class Vector:
     "Vector Object. Takes n arguments as input and creates n length vector, or type length vector."  # noqa: D300
+
     __slots__ = ("_v",)
 
     def __init__(self, *args, type_=None):  # noqa: D107

@@ -89,7 +89,7 @@ def part_two(
     unhandled: deque[int] = deque(
         (idx for idx, v in enumerate(grid.flat) if v == 0),
     )
-    paths: dict[int, int] = {s: 0 for s in unhandled}
+    paths: dict[int, int] = dict.fromkeys(unhandled, 0)
 
     while unhandled:
         point = unhandled.popleft()

@@ -76,7 +76,7 @@ def process(input_: str) -> tuple[int, int]:
         for x in x_values:
             points.append((x, y))
 
-    connections_left: dict[int, int] = {idx: 2 for idx in range(len(points))}
+    connections_left: dict[int, int] = dict.fromkeys(range(len(points)), 2)
     connection_distances: dict[tuple[int, int], int] = {}
     sum_path = 0
     for index, point in enumerate(points):

@@ -23,6 +23,7 @@ import numpy as np
 
 class BingoBoard:
     "Bingo board object."  # noqa: D300
+
     dim = (5, 5)
     has = "X"
 

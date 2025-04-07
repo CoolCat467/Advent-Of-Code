@@ -23,6 +23,7 @@ SHOW_STEP: Final = False
 @dataclasses.dataclass(slots=True)
 class Point:
     "Represents one two dimensional point."  # noqa: D300
+
     x: int
     y: int
 
@@ -51,6 +52,7 @@ class Point:
 
 class RopeSim:
     "Single length rope simulation."  # noqa: D300
+
     __slots__ = ("head", "tail", "visited")
 
     def __init__(self) -> None:  # noqa: D107
@@ -90,6 +92,7 @@ def copysign(x: int, y: int) -> int:
 
 class RopeSimLong:
     "Rope simulation of longer rope (1 does not work properly)."  # noqa: D300
+
     __slots__ = ("length", "stack", "visited")
 
     def __init__(self, length: int) -> None:  # noqa: D107
