@@ -32,6 +32,7 @@ def copysign(x: int, y: int) -> int:
 @dataclasses.dataclass(slots=True)
 class Point:
     "Represents a two dimensional point."  # noqa: D300
+
     x: int
     y: int
 
@@ -216,7 +217,7 @@ def run() -> None:
     for line in file:
         lines.append(
             tuple(
-                cast(tuple[int, int], tuple(map(int, v.split(","))))
+                cast("tuple[int, int]", tuple(map(int, v.split(","))))
                 for v in line.strip().split(" -> ")
             ),
         )

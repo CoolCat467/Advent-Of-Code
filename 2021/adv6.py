@@ -18,6 +18,7 @@ __ver_patch__ = 0
 
 class Fish:
     "Fish class remembering spawn delay, initial cooldown, and current state."  # noqa: D300
+
     __slots__ = ("delay", "init", "timer")
 
     def __init__(self, spawn_delay, init_cooldown, state):  # noqa: D107
@@ -63,6 +64,7 @@ class FishSim:
 # pylint: disable=R0903
 class BetterFishSim:
     "Better fish simulation."  # noqa: D300
+
     __slots__ = ("delay", "future", "init_add")
     """Initial simulation is bad and can't handle trillions of fish in a realistic
 amount of time. Instead, just remember how many are going to have spawn in a number
@@ -74,7 +76,7 @@ that will spawn in the future."""
     def __init__(self, delay, init, data):  # noqa: D107
         self.delay = delay
         self.init_add = init
-        self.future = {x: 0 for x in range(1, self.delay + self.init_add)}
+        self.future = dict.fromkeys(range(1, self.delay + self.init_add), 0)
         for timer in data:
             self.future[timer + 1] = data.count(timer)
 

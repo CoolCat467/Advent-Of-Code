@@ -130,7 +130,7 @@ async def run() -> None:
             print(f"Starting to run {script.name!r}...")
             processes.append(
                 cast(
-                    trio.Process,
+                    "trio.Process",
                     await nursery.start(
                         partial(
                             trio.run_process,

@@ -56,7 +56,7 @@ def run() -> None:
     pairs: list[tuple[str, str]] = []
     for line in file:
         section_pair = tuple(line.strip().split(",", 1))
-        pairs.append(cast(tuple[str, str], section_pair))
+        pairs.append(cast("tuple[str, str]", section_pair))
     file.close()
     print(f"{part_one(pairs) = }")
     print(f"{part_two(pairs) = }")

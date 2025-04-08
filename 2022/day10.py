@@ -22,6 +22,7 @@ if TYPE_CHECKING:
 @dataclass(slots=True)
 class Instruction:
     "Instruction."  # noqa: D300
+
     name: str
     arguments: tuple[int, ...]
 

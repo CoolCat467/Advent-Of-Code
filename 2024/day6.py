@@ -208,7 +208,7 @@ def run() -> None:
     map_ = Map.load(data)
 
     # Find possible place locations
-    available_placements = unique_pos - map_.boxes - {(map_.guard_pos)}
+    available_placements = unique_pos - map_.boxes - {map_.guard_pos}
     ##intersections = {pos for pos, dir_ in pos_dirs.items() if dir_ == Dir.both}
     ##available_placements &= get_intersection_edges(intersections)
 

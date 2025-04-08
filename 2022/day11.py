@@ -23,6 +23,7 @@ if TYPE_CHECKING:
 @dataclasses.dataclass(slots=True)
 class Monkey:
     "Monkey class."  # noqa: D300
+
     number: int
     start: tuple[int, ...]
     operator: Callable[[int], int]
@@ -65,6 +66,7 @@ def get_monkey(data: str) -> Monkey:
 
 class MonkeyProcessor:
     "Bad monkey processor that can't handle super long simulations."  # noqa: D300
+
     __slots__ = ("counts", "do_div", "held", "lcm", "monkeys")
     debug = False
 

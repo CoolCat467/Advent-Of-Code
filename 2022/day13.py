@@ -22,7 +22,7 @@ Packet = int | list[int] | list[list[Any]]
 
 def get_value(string: str) -> Packet:
     "Get object from string."  # noqa: D300
-    return cast(Packet, json.loads(string))
+    return cast("Packet", json.loads(string))
 
 
 def compare(left: Packet, right: Packet) -> bool | None:
@@ -39,7 +39,10 @@ def compare(left: Packet, right: Packet) -> bool | None:
             return compare(left, [right])
     else:
         for left_val, right_val in zip(left, right, strict=False):
-            state = compare(cast(Packet, left_val), cast(Packet, right_val))
+            state = compare(
+                cast("Packet", left_val),
+                cast("Packet", right_val),
+            )
             if state is None:
                 continue
             return state
