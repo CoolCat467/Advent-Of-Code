@@ -27,9 +27,11 @@ __license__ = "GNU General Public License Version 3"
 
 
 import operator
-from collections.abc import Callable, Sequence
 from pathlib import Path
-from typing import cast
+from typing import TYPE_CHECKING, cast
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Sequence
 
 ##def find_ops(result: int, inputs: Sequence[str]) -> tuple[Sequence[tuple[str, ...]], bool]:
 ##    left, *rights = inputs
