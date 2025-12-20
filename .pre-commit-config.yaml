@@ -1,8 +1,8 @@
 ci:
   autofix_prs: true
   autoupdate_schedule: quarterly
-  skip: [badgie]
   submodules: false
+  skip: [badgie]
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -16,18 +16,17 @@ repos:
       - id: check-merge-conflict
       - id: mixed-line-ending
       - id: check-case-conflict
+      - id: check-added-large-files
       - id: sort-simple-yaml
         files: .pre-commit-config.yaml
-  - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 25.12.0
-    hooks:
-      - id: black
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.14.10
     hooks:
-      - id: ruff
+      - id: ruff-format
+      - id: ruff-check
         types: [file]
         types_or: [python, pyi, toml]
+        args: ["--show-fixes"]
   - repo: https://github.com/CoolCat467/badgie
     rev: v0.9.6
     hooks:
@@ -46,3 +45,4 @@ repos:
     rev: v1.19.0
     hooks:
       - id: zizmor
+        args: ["--fix", "--no-progress"]

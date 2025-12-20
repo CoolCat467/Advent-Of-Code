@@ -74,7 +74,7 @@ def part_one(  # noqa: D103
         while True:
             if not travel:
                 if current != last:
-                    print(f"{31-minutes}: Traveled to {last}\n")
+                    print(f"{31 - minutes}: Traveled to {last}\n")
                     current = last
                 break
             max_val = max(travel)
@@ -82,20 +82,20 @@ def part_one(  # noqa: D103
             print(f"{travel = }")
             if current not in valves_open:
                 if new == current:
-                    print(f"{31-minutes}: Opened valve {current}\n")
+                    print(f"{31 - minutes}: Opened valve {current}\n")
                     valves_open.add(current)
                     break
                 if flow_rates[current] * (minutes - 1) > flow_rates[new] * (
                     minutes - 1
                 ):
-                    print(f"{31-minutes}: Opened valve {current}\n")
+                    print(f"{31 - minutes}: Opened valve {current}\n")
                     valves_open.add(current)
                     break
-                print(f"{31-minutes}: Traveled to {new}\n")
+                print(f"{31 - minutes}: Traveled to {new}\n")
                 current = new
                 break
             if current != new:
-                print(f"{31-minutes}: Traveled to {new}\n")
+                print(f"{31 - minutes}: Traveled to {new}\n")
                 current = new
                 break
             last = new

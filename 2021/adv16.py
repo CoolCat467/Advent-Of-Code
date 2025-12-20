@@ -158,7 +158,7 @@ def run():
         data = rfile.read().strip()
         rfile.close()
     # Process data
-    bits = "".join(f"{int(x,16):>04b}" for x in data)
+    bits = "".join(f"{int(x, 16):>04b}" for x in data)
     buffer = Connection()
     buffer.receive(bits)
 

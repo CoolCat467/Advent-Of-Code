@@ -132,7 +132,7 @@ class MonkeyProcessor:
         for mid in self.monkeys:
             self.turn(mid)
         for mid, items in self.held.items():
-            self.log(f'Monkey {mid}: {", ".join(map(str, items))}')
+            self.log(f"Monkey {mid}: {', '.join(map(str, items))}")
         self.log("-" * 20)
 
 

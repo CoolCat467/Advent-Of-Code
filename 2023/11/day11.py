@@ -122,7 +122,7 @@ def process(input_: str) -> tuple[int, int]:
     print(f"{len(connection_distances) = }")
     for point, distance in connection_distances.items():
         x, y = point
-        print(f"{x+1} to {y+1}: {distance}")
+        print(f"{x + 1} to {y + 1}: {distance}")
 
     return sum_path, 0
 
