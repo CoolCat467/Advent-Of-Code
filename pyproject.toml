@@ -1,5 +1,5 @@
 [tool.mypy]
-plugins = ["numpy.typing.mypy_plugin"]
+#plugins = ["numpy.typing.mypy_plugin"]
 #files = ["2021", "2022", "2023", "2024"]
 check_untyped_defs = true
 disallow_any_decorated = true
