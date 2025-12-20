@@ -39,7 +39,7 @@ def run():
     # Solve 2
     rsum = 0
     last = math.inf
-    window = deque([0] + data[:2], 3)
+    window = deque([0, *data[:2]], 3)
     for cval in data[2:]:
         window.popleft()
         window.append(cval)

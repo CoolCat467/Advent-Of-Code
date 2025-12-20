@@ -249,7 +249,7 @@ class DoubleMap(NamedTuple):
     ) -> tuple[tuple[int, int], tuple[int, int]] | None:
         """Return doubl box that given point hits or None."""
         for box in boxes:
-            left, right = box
+            # left, right = box
             if point in box:
                 return box
         return None
