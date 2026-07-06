@@ -1,4 +1,4 @@
-#!/usr/bin/env python3  # noqa: EXE001
+#!/usr/bin/env python3
 # Advent of code 2021 day 18 - https://adventofcode.com/2021/day/19
 
 """Goals:
