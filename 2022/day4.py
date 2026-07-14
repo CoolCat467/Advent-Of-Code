@@ -1,4 +1,4 @@
-#!/usr/bin/env python3  # noqa: EXE001
+#!/usr/bin/env python3
 # Advent of Code 2022 Day 4
 
 "Advent of Code 2022 Day 4."  # noqa: D300
